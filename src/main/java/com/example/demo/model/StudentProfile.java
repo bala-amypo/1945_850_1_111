@@ -15,7 +15,10 @@ public class StudentProfile{
     private String studentId;
     private String fullname;
     private String email;
-    private String 
+    private String department;
+    private int yearLevel;
+    private boolean active;
+    
 
     public StudentProfile(Long id, String name, String email, float cgpa) {
         this.id = id;
