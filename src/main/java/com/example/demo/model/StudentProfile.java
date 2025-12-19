@@ -22,9 +22,13 @@ public class StudentProfile{
      
   public StudentProfile(Long id, String studentId,String email,String department,int yearLevel,Boolean active,LocalDateTime createdAt) {
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.cgpa = cgpa;
+       this.studentid=studentid;
+       this.fullname=fullname;
+       this.email=email;
+       this.department=department;
+       this.yearLevel=yearLevel;
+       this.active=active;
+       this.createdAt=createdAt;
     }
     
     
