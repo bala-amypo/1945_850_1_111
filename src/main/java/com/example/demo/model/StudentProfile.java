@@ -18,50 +18,14 @@ public class StudentProfile{
     private String department;
     private int yearLevel;
     private Boolean active;
+    private LocalDateTime createdAt;
      
-
-    public StudentProfile(Long id, String name, String email, float cgpa) {
+  public StudentProfile(Long id, String name, String email, float cgpa) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cgpa = cgpa;
     }
-
-    public StudentProfile(){
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public float getCgpa() {
-        return cgpa;
-    }
-
-    public void setCgpa(float cgpa) {
-        this.cgpa = cgpa;
-    }
-
+    
     
 }
