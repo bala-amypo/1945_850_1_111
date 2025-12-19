@@ -20,7 +20,7 @@ public class StudentProfile{
     private Boolean active;
     private LocalDateTime createdAt;
      
-  public StudentProfile(Long id, String name, String email, float cgpa) {
+  public StudentProfile(Long id, String studentId,String email,) {
         this.id = id;
         this.name = name;
         this.email = email;
