@@ -20,7 +20,7 @@ public class StudentProfile{
     private Boolean active;
     private LocalDateTime createdAt;
      
-  public StudentProfile(Long id, String studentId,String email,) {
+  public StudentProfile(Long id, String studentId,String email,String department,int yearLevel,Boolean active,LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
