@@ -11,24 +11,32 @@ public class MatchAttemptRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // initiator and candidate student IDs
     @Column(nullable = false)
     private Long initiatorStudentId;
 
     @Column(nullable = false)
     private Long candidateStudentId;
 
-    private Long resultScoreId; // references CompatibilityScoreRecord.id
-
+    // FK to CompatibilityScoreRecord
     @Column(nullable = false)
-    private String status; // MATCHED / NOT_COMPATIBLE / PENDING_REVIEW
+    private Long resultScoreId;
+
+    // MATCHED / NOT_COMPATIBLE / PENDING_REVIEW
+    @Column(nullable = false)
+    private String status;
 
     @Column(nullable = false)
     private LocalDateTime attemptedAt = LocalDateTime.now();
 
-    public MatchAttemptRecord() {}
+    // === getters & setters ===
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getInitiatorStudentId() {
@@ -65,5 +73,9 @@ public class MatchAttemptRecord {
 
     public LocalDateTime getAttemptedAt() {
         return attemptedAt;
+    }
+
+    public void setAttemptedAt(LocalDateTime attemptedAt) {
+        this.attemptedAt = attemptedAt;
     }
 }

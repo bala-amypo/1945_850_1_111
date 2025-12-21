@@ -4,12 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "compatibility_score_records",
-    uniqueConstraints = @UniqueConstraint(
-            columnNames = {"studentAId", "studentBId"}
-    )
-)
+@Table(name = "compatibility_score_records",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"studentAId", "studentBId"}))
 public class CompatibilityScoreRecord {
 
     @Id
@@ -23,21 +19,25 @@ public class CompatibilityScoreRecord {
     private Long studentBId;
 
     @Column(nullable = false)
-    private Double score; // 0–100
+    private Double score;              // 0–100
 
     @Column(nullable = false)
     private String compatibilityLevel; // LOW / MEDIUM / HIGH / EXCELLENT
 
-    @Column(nullable = false)
-    private LocalDateTime computedAt = LocalDateTime.now();
-
     @Column(columnDefinition = "TEXT")
     private String detailsJson;
 
-    public CompatibilityScoreRecord() {}
+    @Column(nullable = false)
+    private LocalDateTime computedAt = LocalDateTime.now();
+
+    // === getters & setters ===
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getStudentAId() {
@@ -72,15 +72,19 @@ public class CompatibilityScoreRecord {
         this.compatibilityLevel = compatibilityLevel;
     }
 
-    public LocalDateTime getComputedAt() {
-        return computedAt;
-    }
-
     public String getDetailsJson() {
         return detailsJson;
     }
 
     public void setDetailsJson(String detailsJson) {
         this.detailsJson = detailsJson;
+    }
+
+    public LocalDateTime getComputedAt() {
+        return computedAt;
+    }
+
+    public void setComputedAt(LocalDateTime computedAt) {
+        this.computedAt = computedAt;
     }
 }
