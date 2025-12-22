@@ -4,39 +4,19 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "match_attempt_records")
 public class MatchAttemptRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // initiator and candidate student IDs
-    @Column(nullable = false)
     private Long initiatorStudentId;
-
-    @Column(nullable = false)
     private Long candidateStudentId;
-
-    // FK to CompatibilityScoreRecord
-    @Column(nullable = false)
-    private Long resultScoreId;
-
-    // MATCHED / NOT_COMPATIBLE / PENDING_REVIEW
-    @Column(nullable = false)
     private String status;
-
-    @Column(nullable = false)
-    private LocalDateTime attemptedAt = LocalDateTime.now();
-
-    // === getters & setters ===
+    private LocalDateTime attemptedAt;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getInitiatorStudentId() {
@@ -53,14 +33,6 @@ public class MatchAttemptRecord {
 
     public void setCandidateStudentId(Long candidateStudentId) {
         this.candidateStudentId = candidateStudentId;
-    }
-
-    public Long getResultScoreId() {
-        return resultScoreId;
-    }
-
-    public void setResultScoreId(Long resultScoreId) {
-        this.resultScoreId = resultScoreId;
     }
 
     public String getStatus() {
