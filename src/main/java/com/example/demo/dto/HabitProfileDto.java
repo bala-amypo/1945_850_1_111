@@ -1,32 +1,51 @@
 package com.example.demo.dto;
 
 public class HabitProfileDto {
+
     private Long id;
-    private Long studentId;
     private String sleepSchedule;
-    private Integer studyHoursPerDay;
+    private int studyHoursPerDay;
     private String cleanlinessLevel;
     private String noiseTolerance;
     private String socialPreference;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public HabitProfileDto() {
+    }
 
-    public Long getStudentId() { return studentId; }
-    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    public HabitProfileDto(Long id, String sleepSchedule,
+                           int studyHoursPerDay,
+                           String cleanlinessLevel,
+                           String noiseTolerance,
+                           String socialPreference) {
+        this.id = id;
+        this.sleepSchedule = sleepSchedule;
+        this.studyHoursPerDay = studyHoursPerDay;
+        this.cleanlinessLevel = cleanlinessLevel;
+        this.noiseTolerance = noiseTolerance;
+        this.socialPreference = socialPreference;
+    }
 
-    public String getSleepSchedule() { return sleepSchedule; }
-    public void setSleepSchedule(String sleepSchedule) { this.sleepSchedule = sleepSchedule; }
+    public Long getId() {
+        return id;
+    }
 
-    public Integer getStudyHoursPerDay() { return studyHoursPerDay; }
-    public void setStudyHoursPerDay(Integer studyHoursPerDay) { this.studyHoursPerDay = studyHoursPerDay; }
+    public String getSleepSchedule() {
+        return sleepSchedule;
+    }
 
-    public String getCleanlinessLevel() { return cleanlinessLevel; }
-    public void setCleanlinessLevel(String cleanlinessLevel) { this.cleanlinessLevel = cleanlinessLevel; }
+    public int getStudyHoursPerDay() {
+        return studyHoursPerDay;
+    }
 
-    public String getNoiseTolerance() { return noiseTolerance; }
-    public void setNoiseTolerance(String noiseTolerance) { this.noiseTolerance = noiseTolerance; }
+    public String getCleanlinessLevel() {
+        return cleanlinessLevel;
+    }
 
-    public String getSocialPreference() { return socialPreference; }
-    public void setSocialPreference(String socialPreference) { this.socialPreference = socialPreference; }
+    public String getNoiseTolerance() {
+        return noiseTolerance;
+    }
+
+    public String getSocialPreference() {
+        return socialPreference;
+    }
 }

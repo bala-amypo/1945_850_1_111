@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.StudentProfileDto;
-import com.example.demo.model.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,29 +13,32 @@ import java.util.List;
 @RequestMapping("/api/students")
 public class StudentProfileController {
 
-    private final StudentProfileService studentService;
-
-    public StudentProfileController(StudentProfileService studentService) {
-        this.studentService = studentService;
-    }
+    @Autowired
+    private StudentProfileService studentProfileService;
 
     @PostMapping
-    public StudentProfile create(@RequestBody StudentProfileDto dto) {
-        return studentService.createStudent(dto);
+    public ResponseEntity<StudentProfileDto> createProfile(@RequestBody StudentProfileDto dto) {
+        StudentProfileDto created = studentProfileService.createProfile(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-
     @PutMapping("/{id}")
-    public StudentProfile update(@PathVariable Long id, @RequestBody StudentProfileDto dto) {
-        return studentService.updateStudent(id, dto);
+    public ResponseEntity<StudentProfileDto> updateProfile(
+            @PathVariable Long id,
+            @RequestBody StudentProfileDto dto) {
+
+        StudentProfileDto updated = studentProfileService.updateProfile(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/{id}")
-    public StudentProfile get(@PathVariable Long id) {
-        return studentService.getStudentById(id);
+    public ResponseEntity<StudentProfileDto> getProfile(@PathVariable Long id) {
+        return studentProfileService.getProfileById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public List<StudentProfile> list() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<StudentProfileDto>> getAllProfiles() {
+        return ResponseEntity.ok(studentProfileService.getAllProfiles());
     }
 }

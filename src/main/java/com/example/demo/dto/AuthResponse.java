@@ -29,7 +29,6 @@ public class AuthResponse {
         return userId;
     }
 
-    // IMPORTANT: parameter type must be Long, not Object
     public void setUserId(Long userId) {
         this.userId = userId;
     }

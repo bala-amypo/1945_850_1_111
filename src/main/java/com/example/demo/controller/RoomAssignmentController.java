@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RoomAssignmentRecord;
+import com.example.demo.dto.RoomAssignmentDto;
 import com.example.demo.service.RoomAssignmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,35 +13,37 @@ import java.util.List;
 @RequestMapping("/api/room-assignments")
 public class RoomAssignmentController {
 
-    private final RoomAssignmentService roomAssignmentService;
-
-    public RoomAssignmentController(RoomAssignmentService roomAssignmentService) {
-        this.roomAssignmentService = roomAssignmentService;
-    }
+    @Autowired
+    private RoomAssignmentService roomAssignmentService;
 
     @PostMapping
-    public RoomAssignmentRecord assign(@RequestBody RoomAssignmentRecord assignment) {
-        return roomAssignmentService.assignRoom(assignment);
-    }
+    public ResponseEntity<RoomAssignmentDto> assignRoom(
+            @RequestParam String roomNumber,
+            @RequestParam Long studentAId,
+            @RequestParam Long studentBId) {
 
-    @PutMapping("/{id}/status")
-    public RoomAssignmentRecord updateStatus(@PathVariable Long id,
-                                             @RequestParam String status) {
-        return roomAssignmentService.updateStatus(id, status);
+        RoomAssignmentDto dto =
+                roomAssignmentService.assignRoom(roomNumber, studentAId, studentBId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping("/{id}")
-    public RoomAssignmentRecord getById(@PathVariable Long id) {
-        return roomAssignmentService.getAssignmentById(id);
+    public ResponseEntity<RoomAssignmentDto> getAssignment(@PathVariable Long id) {
+        return roomAssignmentService.getAssignmentById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/student/{studentId}")
-    public List<RoomAssignmentRecord> getByStudent(@PathVariable Long studentId) {
-        return roomAssignmentService.getAssignmentsByStudent(studentId);
+    public ResponseEntity<List<RoomAssignmentDto>> getAssignmentsForStudent(
+            @PathVariable Long studentId) {
+
+        return ResponseEntity.ok(roomAssignmentService.getAssignmentsForStudent(studentId));
     }
 
-    @GetMapping
-    public List<RoomAssignmentRecord> listAll() {
-        return roomAssignmentService.getAllAssignments();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancelAssignment(@PathVariable Long id) {
+        roomAssignmentService.cancelAssignment(id);
+        return ResponseEntity.noContent().build();
     }
 }
