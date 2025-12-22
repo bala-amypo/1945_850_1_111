@@ -1,15 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.StudentProfileDto;
-import com.example.demo.model.StudentProfile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentProfileService {
-    StudentProfile createStudent(StudentProfileDto dto);
-    StudentProfile updateStudent(Long id, StudentProfileDto dto);
-    StudentProfile getStudentById(Long id);
-    List<StudentProfile> getAllStudents();
-    StudentProfile findByStudentId(String studentId);
-    void updateStudentStatus(Long id, boolean active);
+
+    StudentProfileDto createProfile(StudentProfileDto dto);
+
+    StudentProfileDto updateProfile(Long id, StudentProfileDto dto);
+
+    Optional<StudentProfileDto> getProfileById(Long id);
+
+    List<StudentProfileDto> getAllProfiles();
+
+    void deleteProfile(Long id);
 }

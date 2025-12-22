@@ -1,13 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RoomAssignmentRecord;
-
+import com.example.demo.dto.RoomAssignmentDto;
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomAssignmentService {
-    RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment);
-    RoomAssignmentRecord getAssignmentById(Long id);
-    List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
-    List<RoomAssignmentRecord> getAllAssignments();
-    RoomAssignmentRecord updateStatus(Long id, String status);
+    RoomAssignmentDto assignRoom(String roomNumber, Long studentAId, Long studentBId);
+    Optional<RoomAssignmentDto> getAssignmentById(Long id);
+    List<RoomAssignmentDto> getAssignmentsForStudent(Long studentId);
+    void cancelAssignment(Long id);
 }

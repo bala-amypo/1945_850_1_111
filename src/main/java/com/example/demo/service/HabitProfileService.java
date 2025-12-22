@@ -1,13 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.HabitProfileDto;
-import com.example.demo.model.HabitProfile;
-
-import java.util.List;
+import java.util.Optional;
 
 public interface HabitProfileService {
-    HabitProfile createOrUpdateHabit(HabitProfileDto dto);
-    HabitProfile getHabitByStudent(Long studentId);
-    HabitProfile getHabitById(Long id);
-    List<HabitProfile> getAllHabits();
+    HabitProfileDto createOrUpdateHabit(Long studentId, HabitProfileDto dto);
+    Optional<HabitProfileDto> getHabitByStudentId(Long studentId);
 }
