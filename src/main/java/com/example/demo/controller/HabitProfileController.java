@@ -1,36 +1,34 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.HabitProfileDto;
-import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/habits")
 public class HabitProfileController {
 
-    private final HabitProfileService habitService;
-
-    public HabitProfileController(HabitProfileService habitService) {
-        this.habitService = habitService;
-    }
+    @Autowired
+    private HabitProfileService habitProfileService;
 
     @PostMapping("/{studentId}")
-    public HabitProfile createOrUpdate(@PathVariable Long studentId,
-                                       @RequestBody HabitProfileDto dto) {
-        dto.setStudentId(studentId);
-        return habitService.createOrUpdateHabit(dto);
+    public ResponseEntity<HabitProfileDto> createOrUpdateHabit(
+            @PathVariable Long studentId,
+            @RequestBody HabitProfileDto dto) {
+
+        HabitProfileDto saved = habitProfileService.createOrUpdateHabit(studentId, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping("/{studentId}")
-    public HabitProfile getForStudent(@PathVariable Long studentId) {
-        return habitService.getHabitByStudent(studentId);
-    }
-
-    @GetMapping
-    public List<HabitProfile> listAll() {
-        return habitService.getAllHabits();
+    public ResponseEntity<HabitProfileDto> getHabit(@PathVariable Long studentId) {
+        return habitProfileService.getHabitByStudentId(studentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
+
+//sleepschedule,cleanlinesslevel,noise tolerance, socialpreference

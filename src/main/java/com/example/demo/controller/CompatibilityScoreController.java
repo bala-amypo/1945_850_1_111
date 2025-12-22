@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CompatibilityScoreRecord;
+import com.example.demo.dto.CompatibilityScoreDto;
 import com.example.demo.service.CompatibilityScoreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,30 +13,35 @@ import java.util.List;
 @RequestMapping("/api/compatibility")
 public class CompatibilityScoreController {
 
-    private final CompatibilityScoreService scoreService;
+    @Autowired
+    private CompatibilityScoreService compatibilityScoreService;
 
-    public CompatibilityScoreController(CompatibilityScoreService scoreService) {
-        this.scoreService = scoreService;
-    }
+    @PostMapping("/compute")
+    public ResponseEntity<CompatibilityScoreDto> computeScore(
+            @RequestParam Long studentAId,
+            @RequestParam Long studentBId) {
 
-    @PostMapping("/compute/{studentAId}/{studentBId}")
-    public CompatibilityScoreRecord compute(@PathVariable Long studentAId,
-                                            @PathVariable Long studentBId) {
-        return scoreService.computeScore(studentAId, studentBId);
-    }
-
-    @GetMapping("/student/{studentId}")
-    public List<CompatibilityScoreRecord> getForStudent(@PathVariable Long studentId) {
-        return scoreService.getScoresForStudent(studentId);
-    }
-
-    @GetMapping("/{id}")
-    public CompatibilityScoreRecord getById(@PathVariable Long id) {
-        return scoreService.getScoreById(id);
+        CompatibilityScoreDto dto =
+                compatibilityScoreService.computeCompatibilityScore(studentAId, studentBId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping
-    public List<CompatibilityScoreRecord> listAll() {
-        return scoreService.getAllScores();
+    public ResponseEntity<List<CompatibilityScoreDto>> getAllScores() {
+        return ResponseEntity.ok(compatibilityScoreService.getAllScores());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CompatibilityScoreDto> getScore(@PathVariable Long id) {
+        return compatibilityScoreService.getScoreById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<CompatibilityScoreDto>> getScoresForStudent(
+            @PathVariable Long studentId) {
+
+        return ResponseEntity.ok(compatibilityScoreService.getScoresForStudent(studentId));
     }
 }
