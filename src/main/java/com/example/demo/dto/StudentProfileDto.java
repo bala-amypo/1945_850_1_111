@@ -1,32 +1,100 @@
 package com.example.demo.dto;
 
+import java.time.LocalDateTime;
+
 public class StudentProfileDto {
+
     private Long id;
-    private String studentId;
     private String fullName;
-    private String email;
+    private int age;
     private String department;
-    private Integer yearLevel;
-    private Boolean active;
+    private int yearLevel;
+    private boolean active;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public StudentProfileDto() {
+    }
 
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
+    public StudentProfileDto(Long id,
+                             String fullName,
+                             int age,
+                             String department,
+                             int yearLevel,
+                             boolean active,
+                             LocalDateTime createdAt,
+                             LocalDateTime updatedAt) {
+        this.id = id;
+        this.fullName = fullName;
+        this.age = age;
+        this.department = department;
+        this.yearLevel = yearLevel;
+        this.active = active;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getFullName() {
+        return fullName;
+    }
 
-    public String getDepartment() { return department; }
-    public void setDepartment(String department) { this.department = department; }
+    public int getAge() {
+        return age;
+    }
 
-    public Integer getYearLevel() { return yearLevel; }
-    public void setYearLevel(Integer yearLevel) { this.yearLevel = yearLevel; }
+    public String getDepartment() {
+        return department;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public int getYearLevel() {
+        return yearLevel;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setYearLevel(int yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
