@@ -1,19 +1,36 @@
 package com.example.demo.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI api() {
+    public OpenAPI customOpenAPI() {
+
+        SecurityScheme securityScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT");
+
+        Server server = new Server()
+                .url("https://9248.408procr.amypo.ai/")
+                .description("Production Server");
+
         return new OpenAPI()
-            .info(new Info()
-                .title("Hostel Roommate Compatibility Matcher API")
-                .version("1.0.0")
-                .description("API for matching hostel roommates based on compatibility scores"));
+                .addServersItem(server)
+                .components(
+                        new Components().addSecuritySchemes("bearerAuth", securityScheme)
+                )
+                .addSecurityItem(
+                        new SecurityRequirement().addList("bearerAuth")
+                );
     }
 }
