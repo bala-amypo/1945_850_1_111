@@ -1,59 +1,51 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
 import com.example.demo.security.JwtUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
+import com.example.demo.service.AuthService;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
-@Tag(name = "Auth", description = "Authentication endpoints")
+@RequestMapping("/api/auth")
 public class AuthController {
-    
+
+    private final AuthService authService;
     private final JwtUtil jwtUtil;
-    private final Map<String, AuthRequest> users = new HashMap<>();
-    
-    public AuthController(JwtUtil jwtUtil) {
+
+    public AuthController(AuthService authService, JwtUtil jwtUtil) {
+        this.authService = authService;
         this.jwtUtil = jwtUtil;
     }
-    
+
     @PostMapping("/register")
-    @Operation(summary = "Register new user")
-    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
-        if (users.containsKey(request.getUsername())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new AuthResponse("User already exists", null));
-        }
-        
-        users.put(request.getUsername(), request);
-        String token = jwtUtil.generateToken(request.getUsername(), 
-            request.getRole() != null ? request.getRole() : "USER", 
-            request.getEmail() != null ? request.getEmail() : request.getUsername() + "@example.com", 
-            "1");
-        
-        return ResponseEntity.ok(new AuthResponse("Registration successful", token));
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        // create user (implementation depends on your AuthService)
+        User user = authService.register(request);
+
+        // user just created – has an id
+        String token = jwtUtil.generateToken(
+                user.getUsername(),
+                user.getId(),          // Long
+                user.getEmail()
+        );
+
+        return ResponseEntity.ok(token);
     }
-    
+
     @PostMapping("/login")
-    @Operation(summary = "Login user")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        AuthRequest user = users.get(request.getUsername());
-        if (user == null || !user.getPassword().equals(request.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new AuthResponse("Invalid credentials", null));
-        }
-        
-        String token = jwtUtil.generateToken(request.getUsername(), 
-            user.getRole() != null ? user.getRole() : "USER", 
-            user.getEmail() != null ? user.getEmail() : request.getUsername() + "@example.com", 
-            "1");
-        
-        return ResponseEntity.ok(new AuthResponse("Login successful", token));
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        // validate credentials and load user
+        User user = authService.login(request);
+
+        String token = jwtUtil.generateToken(
+                user.getUsername(),
+                user.getId(),          // Long
+                user.getEmail()
+        );
+
+        return ResponseEntity.ok(token);
     }
 }

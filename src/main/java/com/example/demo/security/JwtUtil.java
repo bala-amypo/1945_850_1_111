@@ -20,7 +20,7 @@ public class JwtUtil {
     // Example: 24 hours validity
     private static final long JWT_EXPIRATION_MS = 24 * 60 * 60 * 1000L;
 
-    // Match AuthServiceImpl: username, userId (Long), email
+    // Signature used everywhere: username, userId (Long), email
     public String generateToken(String username, Long userId, String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
@@ -31,11 +31,11 @@ public class JwtUtil {
                 .claim("email", email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key)          // non‑deprecated with SecretKey in 0.11.x [web:216]
+                .signWith(key)
                 .compact();
     }
 
-    // Works with jjwt 0.11.x and 0.12.x: parser() is still available [web:219][web:270]
+    // Works with jjwt 0.11.x and 0.12.x
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(key)
@@ -63,7 +63,7 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    // Used when you want to compare with an email from DB
+    // Validation with email (used by services)
     public boolean isTokenValid(String token, String email) {
         String extractedEmail = extractEmail(token);
         return extractedEmail != null
@@ -71,7 +71,7 @@ public class JwtUtil {
                 && !isTokenExpired(token);
     }
 
-    // Used by JwtAuthenticationFilter when it only passes the token
+    // Validation with only token (used by filter)
     public boolean isTokenValid(String token) {
         return !isTokenExpired(token);
     }
