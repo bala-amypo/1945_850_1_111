@@ -2,12 +2,15 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;   // <-- add this
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Component
 public class JwtUtil {
 
     // Secret must be at least 32 characters for HS256
