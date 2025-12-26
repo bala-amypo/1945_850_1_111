@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.Contact;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +14,6 @@ public class SwaggerConfig {
             .info(new Info()
                 .title("Hostel Roommate Compatibility Matcher API")
                 .version("1.0.0")
-                .description("Complete hostel roommate matching system with 62 passing TestNG tests")
-                .contact(new Contact().name("Hostel Manager").email("support@example.com")));
+                .description("API for matching hostel roommates based on compatibility scores"));
     }
 }
