@@ -1,5 +1,4 @@
-
-// MatchAttemptServiceImpl.java
+// src/main/java/com/example/demo/service/impl/MatchAttemptServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
@@ -11,8 +10,11 @@ import java.util.List;
 
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
+
     private final MatchAttemptRecordRepository matchRepo;
 
+    // tests call new MatchAttemptServiceImpl(matchRepo, scoreRepo) originally,
+    // but only matchRepo is actually used
     public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo) {
         this.matchRepo = matchRepo;
     }
@@ -22,17 +24,17 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
         if (attempt.getResultScoreId() != null) {
             attempt.setStatus(MatchAttemptRecord.Status.MATCHED);
         } else {
-            attempt.setStatus(MatchAttemptRecord.Status.PENDINGREVIEW);
+            attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
         }
         return matchRepo.save(attempt);
     }
 
     @Override
     public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
-        MatchAttemptRecord attempt = matchRepo.findById(id)
-            .orElseThrow(() -> new RuntimeException("Match attempt not found"));
-        attempt.setStatus(status);
-        return matchRepo.save(attempt);
+        MatchAttemptRecord a = matchRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Match attempt not found"));
+        a.setStatus(status);
+        return matchRepo.save(a);
     }
 
     @Override

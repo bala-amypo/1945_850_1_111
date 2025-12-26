@@ -1,4 +1,4 @@
-
+// src/main/java/com/example/demo/service/StudentProfileService.java
 package com.example.demo.service;
 
 import com.example.demo.model.StudentProfile;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StudentProfileService {
-    StudentProfile createStudentProfile(StudentProfile student);
+    StudentProfile createStudent(StudentProfile student);
     StudentProfile getStudentById(Long id);
     List<StudentProfile> getAllStudents();
     StudentProfile updateStudentStatus(Long id, boolean active);

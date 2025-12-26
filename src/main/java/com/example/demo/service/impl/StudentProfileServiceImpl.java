@@ -1,5 +1,4 @@
-
-// StudentProfileServiceImpl.java
+// src/main/java/com/example/demo/service/impl/StudentProfileServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
+
     private final StudentProfileRepository studentRepo;
 
     public StudentProfileServiceImpl(StudentProfileRepository studentRepo) {
@@ -20,7 +20,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public StudentProfile createStudentProfile(StudentProfile student) {
+    public StudentProfile createStudent(StudentProfile student) {
         if (studentRepo.findByStudentId(student.getStudentId()).isPresent()) {
             throw new IllegalArgumentException("studentId exists");
         }
@@ -33,7 +33,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public StudentProfile getStudentById(Long id) {
         return studentRepo.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     }
 
     @Override
@@ -43,10 +43,10 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public StudentProfile updateStudentStatus(Long id, boolean active) {
-        StudentProfile student = studentRepo.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
-        student.setActive(active);
-        return studentRepo.save(student);
+        StudentProfile s = studentRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        s.setActive(active);
+        return studentRepo.save(s);
     }
 
     @Override

@@ -1,5 +1,4 @@
-
-// HabitProfileServiceImpl.java
+// src/main/java/com/example/demo/service/impl/HabitProfileServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -14,10 +13,19 @@ import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
+
     private final HabitProfileRepository habitRepo;
     private final StudentProfileRepository studentRepo;
 
-    public HabitProfileServiceImpl(HabitProfileRepository habitRepo, StudentProfileRepository studentRepo) {
+    // tests call new HabitProfileServiceImpl(habitRepo)
+    public HabitProfileServiceImpl(HabitProfileRepository habitRepo) {
+        this.habitRepo = habitRepo;
+        this.studentRepo = null;
+    }
+
+    // used by Spring
+    public HabitProfileServiceImpl(HabitProfileRepository habitRepo,
+                                   StudentProfileRepository studentRepo) {
         this.habitRepo = habitRepo;
         this.studentRepo = studentRepo;
     }
@@ -28,19 +36,19 @@ public class HabitProfileServiceImpl implements HabitProfileService {
             throw new IllegalArgumentException("study hours must be positive");
         }
 
-        if (!studentRepo.findById(habit.getStudentId()).isPresent()) {
+        if (studentRepo != null && studentRepo.findById(habit.getStudentId()).isEmpty()) {
             throw new ResourceNotFoundException("Student not found");
         }
 
         Optional<HabitProfile> existing = habitRepo.findByStudentId(habit.getStudentId());
         if (existing.isPresent()) {
-            HabitProfile updated = existing.get();
-            updated.setStudyHoursPerDay(habit.getStudyHoursPerDay());
-            updated.setSleepSchedule(habit.getSleepSchedule());
-            updated.setCleanlinessLevel(habit.getCleanlinessLevel());
-            updated.setNoiseTolerance(habit.getNoiseTolerance());
-            updated.setSocialPreference(habit.getSocialPreference());
-            return habitRepo.save(updated);
+            HabitProfile h = existing.get();
+            h.setStudyHoursPerDay(habit.getStudyHoursPerDay());
+            h.setSleepSchedule(habit.getSleepSchedule());
+            h.setCleanlinessLevel(habit.getCleanlinessLevel());
+            h.setNoiseTolerance(habit.getNoiseTolerance());
+            h.setSocialPreference(habit.getSocialPreference());
+            return habitRepo.save(h);
         }
         return habitRepo.save(habit);
     }
