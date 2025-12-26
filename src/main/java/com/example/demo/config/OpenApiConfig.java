@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI api() {
+    public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Hostel Roommate Matcher API")
-                        .version("1.0")
-                        .description("API documentation"));
+                        .title("Hotel Roommate Matcher API")
+                        .description("API documentation")
+                        .version("1.0"));
     }
 }
