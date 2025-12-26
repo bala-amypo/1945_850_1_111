@@ -34,11 +34,14 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
-    public Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser()
+   public Claims getAllClaimsFromToken(String token) {
+    // 1) build the parser
+    io.jsonwebtoken.JwtParser parser = Jwts.parser()
             .setSigningKey(key)
-            .parseClaimsJws(token)
-            .getBody();
+            .build();
+
+    // 2) use the parser to parse the token
+    return parser.parseClaimsJws(token).getBody();
 }
     public String extractUsername(String token) {
         return getAllClaimsFromToken(token).getSubject();
