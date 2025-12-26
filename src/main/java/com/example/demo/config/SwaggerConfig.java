@@ -33,4 +33,9 @@ public class SwaggerConfig {
                         new SecurityRequirement().addList("bearerAuth")
                 );
     }
+
+    // Method expected by DemoMassiveTestNGTests: sc.api()
+    public OpenAPI api() {
+        return customOpenAPI();
+    }
 }
