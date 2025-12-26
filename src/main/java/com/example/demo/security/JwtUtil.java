@@ -1,72 +1,95 @@
+
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
-import javax.crypto.SecretKey;
+import org.springframework.stereotype.Component;
+import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
+@Component
 public class JwtUtil {
-
-    // Use the same secret you had earlier (must be long enough for HMAC-SHA algorithms)
-    private final String secretString = "your-very-long-secret-key-change-me-1234567890";
-    private final SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes());
-
-    // Example: 24 hours validity
-    private final long JWT_EXPIRATION_MS = 24 * 60 * 60 * 1000L;
-
-    // This signature matches your error message: (String, String, Long, String)
-    public String generateToken(String username, String role, Long userId, String email) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
-
+    
+    private final JwtProperties jwtProperties;
+    private Key key;
+    
+    public JwtUtil(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+        this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
+    }
+    
+    public String generateToken(String username, String role, String email, String userId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("role", role);
+        claims.put("email", email);
+        return createToken(claims, username);
+    }
+    
+    public String generateToken(String email, Long userId, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("role", role);
+        return createToken(claims, email);
+    }
+    
+    public void validate(String token) {
+        if (!isTokenValid(token)) {
+            throw new RuntimeException("Invalid token");
+        }
+    }
+    
+    private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setSubject(username)
-                .claim("role", role)
-                .claim("userId", userId)
-                .claim("email", email)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(key)
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-
-    // Central place to parse token with the new, non-deprecated API
-    public Claims parseToken(String token) {
-        return Jwts.parserBuilder()
+    
+    public String extractEmail(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+    
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", Long.class);
+    }
+    
+    public String extractRole(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("role", String.class);
+    }
+    
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+    
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    // Used by your filter to get email from token
-    public String extractEmail(String token) {
-        Claims claims = parseToken(token);
-        return claims.get("email", String.class);
-    }
-
-    public String extractUsername(String token) {
-        Claims claims = parseToken(token);
-        return claims.getSubject();
-    }
-
-    private Date extractExpiration(String token) {
-        Claims claims = parseToken(token);
-        return claims.getExpiration();
-    }
-
-    private boolean isTokenExpired(String token) {
-        Date expiration = extractExpiration(token);
-        return expiration.before(new Date());
-    }
-
-    // Used by your filter/service to validate the token against the email
-    public boolean isTokenValid(String token, String email) {
-        String extractedEmail = extractEmail(token);
-        return extractedEmail != null
-                && extractedEmail.equals(email)
-                && !isTokenExpired(token);
+    
+    public Boolean isTokenValid(String token) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
