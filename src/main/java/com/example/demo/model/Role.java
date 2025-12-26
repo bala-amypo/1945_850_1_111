@@ -1,5 +1,5 @@
-package com.example.demo.model;
+// package com.example.demo.model;
 
-public enum Role {
-    STUDENT, ADMIN, STAFF
-}
+// public enum Role {
+//     STUDENT, ADMIN, STAFF
+// }

@@ -1,5 +1,5 @@
-package com.example.demo.dto;
+// package com.example.demo.dto;
 
-public class UserAccountDto {
+// public class UserAccountDto {
     
-}
+// }

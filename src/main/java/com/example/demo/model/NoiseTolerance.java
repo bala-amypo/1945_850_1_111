@@ -1,5 +1,5 @@
-package com.example.demo.model;
+// package com.example.demo.model;
 
-public enum NoiseTolerance { 
-    LOW, MEDIUM, HIGH 
-}
+// public enum NoiseTolerance { 
+//     LOW, MEDIUM, HIGH 
+// }
