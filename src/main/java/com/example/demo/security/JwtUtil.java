@@ -2,18 +2,12 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JwtUtil {
 
-    // Must be >= 32 characters for HS256
-    private static final String SECRET =
-            "secretkey123secretkey123secretkey123";
-
-    private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private static final String SECRET = "secretkey123";
 
     public String generateToken(
             String username,
@@ -27,16 +21,15 @@ public class JwtUtil {
                 .claim("email", email)
                 .claim("id", id)
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + 3600000))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
     public void validate(String token) {
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()                 // 🔥 THIS WAS MISSING
+        // OLD JJWT (0.9.x) — THIS IS THE KEY
+        Jwts.parser()
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token);
     }
 }
