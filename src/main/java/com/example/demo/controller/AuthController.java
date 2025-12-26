@@ -1,44 +1,28 @@
-// package com.example.demo.controller;
+package com.example.demo.controller;
 
-// import com.example.demo.dto.AuthRequest;
-// import com.example.demo.security.JwtUtil;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.security.JwtUtil;
+import org.springframework.http.ResponseEntity;
 
-// @RestController
-// @RequestMapping("/api/auth")
-// public class AuthController {
+import java.util.HashMap;
+import java.util.Map;
 
-//     private final JwtUtil jwtUtil;
+public class AuthController {
 
-//     public AuthController(JwtUtil jwtUtil) {
-//         this.jwtUtil = jwtUtil;
-//     }
+    private final JwtUtil jwtUtil;
+    private final Map<String, String> users = new HashMap<>();
 
-//     // Main simple register endpoint: used by app code
-//     @PostMapping("/register")
-//     public ResponseEntity<String> register(
-//             @RequestParam String username,
-//             @RequestParam String email) {
+    public AuthController(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
-//         Long userId = 0L; // no real DB id here
-//         String token = jwtUtil.generateToken(username, userId, email);
-//         return ResponseEntity.ok(token);
-//     }
+    public ResponseEntity<String> register(AuthRequest request) {
 
-//     // Overload so tests can call register(AuthRequest)
-//     public ResponseEntity<String> register(AuthRequest request) {
-//         return register(request.getUsername(), request.getEmail());
-//     }
+        if (users.containsKey(request.getUsername())) {
+            return ResponseEntity.badRequest().body("User already exists");
+        }
 
-//     // Simple login endpoint
-//     @PostMapping("/login")
-//     public ResponseEntity<String> login(
-//             @RequestParam String username,
-//             @RequestParam String email) {
-
-//         Long userId = 0L;
-//         String token = jwtUtil.generateToken(username, userId, email);
-//         return ResponseEntity.ok(token);
-//     }
-// }
+        users.put(request.getUsername(), request.getPassword());
+        return ResponseEntity.ok("Registered");
+    }
+}
