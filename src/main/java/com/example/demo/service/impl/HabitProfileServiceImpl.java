@@ -1,58 +1,58 @@
-package com.example.demo.service.impl;
+// package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.HabitProfile;
-import com.example.demo.repository.HabitProfileRepository;
-import com.example.demo.service.HabitProfileService;
-import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+// import com.example.demo.exception.ResourceNotFoundException;
+// import com.example.demo.model.HabitProfile;
+// import com.example.demo.repository.HabitProfileRepository;
+// import com.example.demo.service.HabitProfileService;
+// import org.springframework.stereotype.Service;
+// import java.time.LocalDateTime;
+// import java.util.List;
+// import java.util.Optional;
 
-@Service
-public class HabitProfileServiceImpl implements HabitProfileService {
+// @Service
+// public class HabitProfileServiceImpl implements HabitProfileService {
     
-    private final HabitProfileRepository habitProfileRepository;
+//     private final HabitProfileRepository habitProfileRepository;
     
-    public HabitProfileServiceImpl(HabitProfileRepository habitProfileRepository) {
-        this.habitProfileRepository = habitProfileRepository;
-    }
+//     public HabitProfileServiceImpl(HabitProfileRepository habitProfileRepository) {
+//         this.habitProfileRepository = habitProfileRepository;
+//     }
     
-    @Override
-    public HabitProfile createOrUpdateHabit(HabitProfile habit) {
-        if (habit.getStudyHoursPerDay() != null && habit.getStudyHoursPerDay() < 0) {
-            throw new IllegalArgumentException("study hours must be >= 0");
-        }
+//     @Override
+//     public HabitProfile createOrUpdateHabit(HabitProfile habit) {
+//         if (habit.getStudyHoursPerDay() != null && habit.getStudyHoursPerDay() < 0) {
+//             throw new IllegalArgumentException("study hours must be >= 0");
+//         }
         
-        Optional<HabitProfile> existing = habitProfileRepository.findByStudentId(habit.getStudentId());
-        if (existing.isPresent()) {
-            HabitProfile existingHabit = existing.get();
-            existingHabit.setSleepSchedule(habit.getSleepSchedule());
-            existingHabit.setStudyHoursPerDay(habit.getStudyHoursPerDay());
-            existingHabit.setCleanlinessLevel(habit.getCleanlinessLevel());
-            existingHabit.setNoiseTolerance(habit.getNoiseTolerance());
-            existingHabit.setSocialPreference(habit.getSocialPreference());
-            existingHabit.setUpdatedAt(LocalDateTime.now());
-            return habitProfileRepository.save(existingHabit);
-        }
+//         Optional<HabitProfile> existing = habitProfileRepository.findByStudentId(habit.getStudentId());
+//         if (existing.isPresent()) {
+//             HabitProfile existingHabit = existing.get();
+//             existingHabit.setSleepSchedule(habit.getSleepSchedule());
+//             existingHabit.setStudyHoursPerDay(habit.getStudyHoursPerDay());
+//             existingHabit.setCleanlinessLevel(habit.getCleanlinessLevel());
+//             existingHabit.setNoiseTolerance(habit.getNoiseTolerance());
+//             existingHabit.setSocialPreference(habit.getSocialPreference());
+//             existingHabit.setUpdatedAt(LocalDateTime.now());
+//             return habitProfileRepository.save(existingHabit);
+//         }
         
-        habit.setUpdatedAt(LocalDateTime.now());
-        return habitProfileRepository.save(habit);
-    }
+//         habit.setUpdatedAt(LocalDateTime.now());
+//         return habitProfileRepository.save(habit);
+//     }
     
-    @Override
-    public HabitProfile getHabitByStudent(Long studentId) {
-        return habitProfileRepository.findByStudentId(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Habit profile not found"));
-    }
+//     @Override
+//     public HabitProfile getHabitByStudent(Long studentId) {
+//         return habitProfileRepository.findByStudentId(studentId)
+//                 .orElseThrow(() -> new ResourceNotFoundException("Habit profile not found"));
+//     }
     
-    @Override
-    public Optional<HabitProfile> getHabitById(Long id) {
-        return habitProfileRepository.findById(id);
-    }
+//     @Override
+//     public Optional<HabitProfile> getHabitById(Long id) {
+//         return habitProfileRepository.findById(id);
+//     }
     
-    @Override
-    public List<HabitProfile> getAllHabitProfiles() {
-        return habitProfileRepository.findAll();
-    }
-}
+//     @Override
+//     public List<HabitProfile> getAllHabitProfiles() {
+//         return habitProfileRepository.findAll();
+//     }
+// }

@@ -1,5 +1,5 @@
-package com.example.demo.model;
+// package com.example.demo.model;
 
-public enum SocialPreference { 
-    INTROVERT, BALANCED, EXTROVERT 
-}
+// public enum SocialPreference { 
+//     INTROVERT, BALANCED, EXTROVERT 
+// }

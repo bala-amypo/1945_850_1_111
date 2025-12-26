@@ -1,5 +1,5 @@
-package com.example.demo.model;
+// package com.example.demo.model;
 
-public enum SleepSchedule { 
-    EARLY, REGULAR, LATE 
-}
+// public enum SleepSchedule { 
+//     EARLY, REGULAR, LATE 
+// }

@@ -1,5 +1,5 @@
-package com.example.demo.model;
+// package com.example.demo.model;
 
-public enum RoomStatus { 
-    ACTIVE, COMPLETED, CANCELLED 
-}
+// public enum RoomStatus { 
+//     ACTIVE, COMPLETED, CANCELLED 
+// }
