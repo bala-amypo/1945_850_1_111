@@ -35,13 +35,13 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Works with jjwt 0.11.x and 0.12.x
-    public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token)
-                .getBody();
-    }
+ public Claims getAllClaimsFromToken(String token) {
+    return Jwts.parser()
+            .setSigningKey(key)
+            .parseClaimsJws(token)
+            .getBody();
+}
+
 
     public String extractUsername(String token) {
         return getAllClaimsFromToken(token).getSubject();
