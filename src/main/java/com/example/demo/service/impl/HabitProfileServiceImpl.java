@@ -1,3 +1,5 @@
+
+// HabitProfileServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -12,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
-
     private final HabitProfileRepository habitRepo;
     private final StudentProfileRepository studentRepo;
 
@@ -23,14 +24,14 @@ public class HabitProfileServiceImpl implements HabitProfileService {
 
     @Override
     public HabitProfile createOrUpdateHabit(HabitProfile habit) {
-        if (habit.getStudyHoursPerDay() != null && habit.getStudyHoursPerDay() < 0) {
+        if (habit.getStudyHoursPerDay() != null && habit.getStudyHoursPerDay() <= 0) {
             throw new IllegalArgumentException("study hours must be positive");
         }
-        
+
         if (!studentRepo.findById(habit.getStudentId()).isPresent()) {
             throw new ResourceNotFoundException("Student not found");
         }
-        
+
         Optional<HabitProfile> existing = habitRepo.findByStudentId(habit.getStudentId());
         if (existing.isPresent()) {
             HabitProfile updated = existing.get();
