@@ -7,6 +7,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Spring Boot parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -49,7 +50,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- JWT (old API used by your code) -->
+        <!-- JWT (matches your JwtUtil code) -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -63,17 +64,11 @@
             <version>2.2.0</version>
         </dependency>
 
-        <!-- Spring Test WITHOUT JUNIT -->
+        <!-- Spring Test (NO JUNIT) -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- TestNG -->
@@ -86,26 +81,20 @@
 
     </dependencies>
 
-   <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.1.2</version>
-            <dependencies>
-                <dependency>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                    <version>7.9.0</version>
-                </dependency>
-            </dependencies>
-            <configuration>
-                <provider>testng</provider>
-                <useModulePath>false</useModulePath>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+    <build>
+        <plugins>
 
+            <!-- FORCE TESTNG (JUnit is gone, so auto-detect = TestNG) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>
