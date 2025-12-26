@@ -1,6 +1,12 @@
-package com.example.demo.config;
-
-// Dummy class so DemoMassiveTestNGTests can compile.
-// Do NOT add @Configuration or any @Bean method here.
+@Configuration
 public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI api() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Hostel Roommate Matcher API")
+                        .version("1.0")
+                        .description("API documentation"));
+    }
 }
