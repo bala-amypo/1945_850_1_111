@@ -2,7 +2,6 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.util.Date;
 
 public class JwtUtil {
@@ -21,14 +20,12 @@ public class JwtUtil {
                 .claim("email", email)
                 .claim("id", id)
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + 3600000))
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
     public void validate(String token) {
-        // OLD JJWT API (0.9.x compatible)
         Jwts.parser()
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token);
