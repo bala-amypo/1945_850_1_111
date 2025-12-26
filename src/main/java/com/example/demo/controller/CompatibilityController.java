@@ -21,12 +21,18 @@ public class CompatibilityController {
 
     @PostMapping("/compute")
     public ResponseEntity<CompatibilityScoreRecord> computeScore(
-            @RequestParam Long studentAId, @RequestParam Long studentBId) {
+            @RequestParam Long studentAId, 
+            @RequestParam Long studentBId) {
         return ResponseEntity.ok(compatService.computeScore(studentAId, studentBId));
     }
 
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<CompatibilityScoreRecord>> getForStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(compatService.getScoresForStudent(studentId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CompatibilityScoreRecord> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(compatService.getScoreById(id));
     }
 }

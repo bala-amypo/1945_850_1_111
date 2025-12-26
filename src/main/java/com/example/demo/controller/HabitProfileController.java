@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @Tag(name = "Habit Profiles", description = "Habit profile management")
 @RestController
@@ -25,9 +25,14 @@ public class HabitProfileController {
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<?> getByStudent(@PathVariable Long studentId) {
-        Optional<HabitProfile> habit = habitService.getHabitByStudent(studentId);
-        return habit.map(ResponseEntity::ok)
-                   .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+        return habitService.getHabitByStudent(studentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HabitProfile>> getAll() {
+        return ResponseEntity.ok(habitService.getAllHabitProfiles());
     }
 }

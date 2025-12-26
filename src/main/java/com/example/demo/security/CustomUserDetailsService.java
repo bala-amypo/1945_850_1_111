@@ -14,18 +14,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public CustomUserDetailsService(UserAccountRepository userAccountRepository) {
         this.userAccountRepository = userAccountRepository;
-        // Seed admin user for tests
-        seedAdminUser();
-    }
-
-    private void seedAdminUser() {
-        if (userAccountRepository.findByEmail("admin@example.com").isEmpty()) {
-            UserAccount admin = new UserAccount();
-            admin.setEmail("admin@example.com");
-            admin.setPassword("$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92XDGI8QvqaOftW2EUW1G"); // password: admin123
-            admin.setRole("ADMIN");
-            userAccountRepository.save(admin);
-        }
     }
 
     @Override

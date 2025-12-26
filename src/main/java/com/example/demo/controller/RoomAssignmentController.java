@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Room Assignments", description = "Room assignment management")
 @RestController
 @RequestMapping("/api/rooms")
@@ -20,5 +22,17 @@ public class RoomAssignmentController {
     @PostMapping
     public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord assignment) {
         return ResponseEntity.ok(assignmentService.assignRoom(assignment));
+    }
+
+    @PutMapping("/{id}/status/{status}")
+    public ResponseEntity<RoomAssignmentRecord> updateStatus(
+            @PathVariable Long id, 
+            @PathVariable String status) {
+        return ResponseEntity.ok(assignmentService.updateStatus(id, RoomAssignmentRecord.Status.valueOf(status)));
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<RoomAssignmentRecord>> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsByStudent(studentId));
     }
 }
