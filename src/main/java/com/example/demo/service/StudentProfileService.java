@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StudentProfileService {
-    StudentProfile create(StudentProfile student);
+    StudentProfile createStudent(StudentProfile student);  // ✅ FIXED: createStudent
     StudentProfile getStudentById(Long id);
     List<StudentProfile> getAllStudents();
     StudentProfile updateStudentStatus(Long id, boolean active);
