@@ -1,18 +1,6 @@
 package com.example.demo.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
+// Dummy class so DemoMassiveTestNGTests can compile.
+// Do NOT add @Configuration or any @Bean method here.
 public class SwaggerConfig {
-
-    @Bean(name = "swaggerCustomOpenAPI")
-    public OpenAPI swaggerCustomOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Hostel Roommate Matcher API (SwaggerConfig)")
-                        .version("1.0.0"));
-    }
 }
