@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AuthRequest;
 import com.example.demo.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,20 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // Simple register endpoint – adjust URL if your tests expect a different path
+    // Main simple register endpoint: used by app code
     @PostMapping("/register")
     public ResponseEntity<String> register(
             @RequestParam String username,
             @RequestParam String email) {
 
-        // If you do not have a real DB user yet, just use 0L as dummy id
-        Long userId = 0L;
-
+        Long userId = 0L; // no real DB id here
         String token = jwtUtil.generateToken(username, userId, email);
         return ResponseEntity.ok(token);
+    }
+
+    // Overload so tests can call register(AuthRequest)
+    public ResponseEntity<String> register(AuthRequest request) {
+        return register(request.getUsername(), request.getEmail());
     }
 
     // Simple login endpoint
@@ -34,7 +38,6 @@ public class AuthController {
             @RequestParam String email) {
 
         Long userId = 0L;
-
         String token = jwtUtil.generateToken(username, userId, email);
         return ResponseEntity.ok(token);
     }

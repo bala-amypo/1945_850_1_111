@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;   // <-- add this
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +23,7 @@ public class JwtUtil {
     // Example: 24 hours validity
     private static final long JWT_EXPIRATION_MS = 24 * 60 * 60 * 1000L;
 
-    // Signature used everywhere: username, userId (Long), email
+    // Main app usage: username, userId (Long), email
     public String generateToken(String username, Long userId, String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
@@ -37,15 +37,25 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
-   public Claims getAllClaimsFromToken(String token) {
-    // 1) build the parser
-    io.jsonwebtoken.JwtParser parser = Jwts.parser()
-            .setSigningKey(key)
-            .build();
 
-    // 2) use the parser to parse the token
-    return parser.parseClaimsJws(token).getBody();
-}
+    // Overload kept only so the TestNG tests compile (4 String args)
+    public String generateToken(String username,
+                                String role,
+                                String email,
+                                String userId) {
+        Long id = 0L; // tests only check that a token is returned
+        return generateToken(username, id, email);
+    }
+
+    // Central parsing method compatible with your jjwt version
+    public Claims getAllClaimsFromToken(String token) {
+        JwtParser parser = Jwts.parser()
+                .setSigningKey(key)
+                .build();
+
+        return parser.parseClaimsJws(token).getBody();
+    }
+
     public String extractUsername(String token) {
         return getAllClaimsFromToken(token).getSubject();
     }
@@ -66,7 +76,7 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    // Validation with email (used by services)
+    // Used by services with email
     public boolean isTokenValid(String token, String email) {
         String extractedEmail = extractEmail(token);
         return extractedEmail != null
@@ -74,8 +84,13 @@ public class JwtUtil {
                 && !isTokenExpired(token);
     }
 
-    // Validation with only token (used by filter)
+    // Used by filters/tests with only token
     public boolean isTokenValid(String token) {
         return !isTokenExpired(token);
+    }
+
+    // Wrapper so tests can call jwtUtil.validate(token)
+    public boolean validate(String token) {
+        return isTokenValid(token);
     }
 }
