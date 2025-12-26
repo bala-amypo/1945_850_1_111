@@ -7,7 +7,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- ✅ SPRING BOOT PARENT (VERY IMPORTANT) -->
+    <!-- ✅ SPRING BOOT PARENT (MANDATORY) -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,7 +19,6 @@
     <artifactId>hostel-roommate-matcher</artifactId>
     <version>1.0.0</version>
     <name>Hostel Roommate Compatibility Matcher</name>
-    <description>Spring Boot Hostel Roommate Matching System</description>
 
     <properties>
         <java.version>17</java.version>
@@ -52,7 +51,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- JWT (old API used in your JwtUtil) -->
+        <!-- JWT (OLD API – matches your JwtUtil code) -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -66,13 +65,14 @@
             <version>2.2.0</version>
         </dependency>
 
-        <!-- TestNG + Spring Test -->
+        <!-- Spring Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -82,6 +82,7 @@
 
     </dependencies>
 
+    <!-- ✅ FORCE MAVEN TO RUN TESTNG (NOT JUNIT) -->
     <build>
         <plugins>
             <plugin>
@@ -89,6 +90,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
+                    <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
