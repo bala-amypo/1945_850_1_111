@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "matchattemptrecord")
-@Data
 public class MatchAttemptRecord {
+
     public enum Status {
         PENDINGREVIEW, MATCHED, REJECTED
     }
@@ -24,4 +24,21 @@ public class MatchAttemptRecord {
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDINGREVIEW;
+
+    // getters and setters
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getInitiatorStudentId() { return initiatorStudentId; }
+    public void setInitiatorStudentId(Long initiatorStudentId) { this.initiatorStudentId = initiatorStudentId; }
+
+    public Long getCandidateStudentId() { return candidateStudentId; }
+    public void setCandidateStudentId(Long candidateStudentId) { this.candidateStudentId = candidateStudentId; }
+
+    public Long getResultScoreId() { return resultScoreId; }
+    public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
+
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }
