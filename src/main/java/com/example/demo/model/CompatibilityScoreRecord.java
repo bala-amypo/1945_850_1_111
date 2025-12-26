@@ -1,75 +1,49 @@
-// package com.example.demo.model;
+package com.example.demo.model;
 
-// import jakarta.persistence.*;
-// import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-// @Entity
-// @Table(
-//         name = "compatibility_scores",
-//         uniqueConstraints = {
-//                 @UniqueConstraint(columnNames = {"student_a_id", "student_b_id"})
-//         }
-// )
-// public class CompatibilityScoreRecord {
+@Entity
+public class CompatibilityScoreRecord {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     @Column(name = "student_a_id", nullable = false)
-//     private Long studentAId;
+    private Long studentAId;
+    private Long studentBId;
+    private Double score;
+    private String detailsJson;
+    private LocalDateTime computedAt;
 
-//     @Column(name = "student_b_id", nullable = false)
-//     private Long studentBId;
+    @Enumerated(EnumType.STRING)
+    private CompatibilityLevel compatibilityLevel;
 
-//     @Column(nullable = false)
-//     private Double score;
+    public enum CompatibilityLevel {
+        POOR, FAIR, GOOD, EXCELLENT
+    }
 
-//     @Enumerated(EnumType.STRING)
-//     @Column(nullable = false)
-//     private CompatibilityLevel compatibilityLevel = CompatibilityLevel.MEDIUM;
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-//     @Column(name = "details_json", columnDefinition = "TEXT")
-//     private String detailsJson;
+    public Long getStudentAId() { return studentAId; }
+    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
 
-//     @Column(name = "computed_at")
-//     private LocalDateTime computedAt = LocalDateTime.now();
-    
-//     public CompatibilityScoreRecord() {}
-    
-//     public CompatibilityScoreRecord(Long id, Long studentAId, Long studentBId, Double score, 
-//                                    CompatibilityLevel compatibilityLevel, String detailsJson, LocalDateTime computedAt) {
-//         this.id = id;
-//         this.studentAId = studentAId;
-//         this.studentBId = studentBId;
-//         this.score = score;
-//         this.compatibilityLevel = compatibilityLevel;
-//         this.detailsJson = detailsJson;
-//         this.computedAt = computedAt;
-//     }
-    
-//     public Long getId() { return id; }
-//     public void setId(Long id) { this.id = id; }
-    
-//     public Long getStudentAId() { return studentAId; }
-//     public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
-    
-//     public Long getStudentBId() { return studentBId; }
-//     public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
-    
-//     public Double getScore() { return score; }
-//     public void setScore(Double score) { this.score = score; }
-    
-//     public CompatibilityLevel getCompatibilityLevel() { return compatibilityLevel; }
-//     public void setCompatibilityLevel(CompatibilityLevel compatibilityLevel) { this.compatibilityLevel = compatibilityLevel; }
-    
-//     public String getDetailsJson() { return detailsJson; }
-//     public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
-    
-//     public LocalDateTime getComputedAt() { return computedAt; }
-//     public void setComputedAt(LocalDateTime computedAt) { this.computedAt = computedAt; }
+    public Long getStudentBId() { return studentBId; }
+    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
 
-//     public enum CompatibilityLevel {
-//         POOR, FAIR, MEDIUM, GOOD, EXCELLENT
-//     }
-// }
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
+
+    public String getDetailsJson() { return detailsJson; }
+    public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
+
+    public LocalDateTime getComputedAt() { return computedAt; }
+    public void setComputedAt(LocalDateTime computedAt) { this.computedAt = computedAt; }
+
+    public CompatibilityLevel getCompatibilityLevel() { return compatibilityLevel; }
+    public void setCompatibilityLevel(CompatibilityLevel compatibilityLevel) {
+        this.compatibilityLevel = compatibilityLevel;
+    }
+}

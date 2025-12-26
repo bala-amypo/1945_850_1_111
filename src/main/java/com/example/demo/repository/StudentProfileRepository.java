@@ -1,14 +1,10 @@
-// package com.example.demo.repository;
+package com.example.demo.repository;
 
-// import com.example.demo.model.StudentProfile;
-// import org.springframework.data.jpa.repository.JpaRepository;
-// import org.springframework.stereotype.Repository;
-// import java.util.Optional;
-// import java.util.List;
+import com.example.demo.model.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.*;
 
-// @Repository
-// public interface StudentProfileRepository extends JpaRepository<StudentProfile, Long> {
-//     Optional<StudentProfile> findByStudentId(String studentId);
-//     Optional<StudentProfile> findByEmail(String email);
-//     List<StudentProfile> findByActiveTrue();
-// }
+public interface StudentProfileRepository extends JpaRepository<StudentProfile, Long> {
+    Optional<StudentProfile> findByStudentId(String studentId);
+    Optional<StudentProfile> findByEmail(String email);
+}
