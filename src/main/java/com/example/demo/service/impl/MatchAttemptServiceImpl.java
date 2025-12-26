@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.repository.MatchAttemptRecordRepository;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,11 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository matchRepo;
 
-    // tests call new MatchAttemptServiceImpl(matchRepo, scoreRepo) originally,
-    // but only matchRepo is actually used
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo) {
+    // Constructor matching the tests: (matchRepo, scoreRepo)
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
+                                   CompatibilityScoreRecordRepository scoreRepo) {
         this.matchRepo = matchRepo;
+        // scoreRepo is not needed by current logic but included to satisfy constructor signature
     }
 
     @Override

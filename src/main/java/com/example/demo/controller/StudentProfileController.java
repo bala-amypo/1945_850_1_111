@@ -21,7 +21,8 @@ public class StudentProfileController {
 
     @PostMapping
     public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile student) {
-        return ResponseEntity.ok(studentService.createStudentProfile(student));
+        // must call createStudent (matches StudentProfileService and tests)
+        return ResponseEntity.ok(studentService.createStudent(student));
     }
 
     @GetMapping("/{id}")
