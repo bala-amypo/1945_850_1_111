@@ -1,17 +1,13 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JwtUtil {
 
-    private static final String SECRET =
-            "secretkey123secretkey123secretkey123"; // >= 32 chars
-
-    private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private static final String SECRET = "secretkey123";
 
     public String generateToken(
             String username,
@@ -27,14 +23,14 @@ public class JwtUtil {
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + 3600000))
-                .signWith(key)
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
     public void validate(String token) {
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
+        // OLD JJWT API (0.9.x compatible)
+        Jwts.parser()
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token);
     }
 }
