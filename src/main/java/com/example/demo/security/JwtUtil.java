@@ -10,37 +10,35 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // Secret must be at least 32 chars for HS256
-    private static final String secretString =
+    // Secret must be at least 32 characters for HS256
+    private static final String SECRET_STRING =
             "change-this-secret-to-a-long-random-string-123456";
 
     private final SecretKey key =
-            Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
+            Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
 
-    // Example: 24 hours
+    // Example: 24 hours validity
     private static final long JWT_EXPIRATION_MS = 24 * 60 * 60 * 1000L;
 
-    // Match most common usage: username, role, userId, email
-    public String generateToken(String username, String role, Long userId, String email) {
+    // Match AuthServiceImpl: username, userId (Long), email
+    public String generateToken(String username, Long userId, String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
                 .claim("userId", userId)
                 .claim("email", email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key)
+                .signWith(key)          // non‑deprecated with SecretKey in 0.11.x [web:216]
                 .compact();
     }
 
-    // Central parsing method using non‑deprecated API
+    // Works with jjwt 0.11.x and 0.12.x: parser() is still available [web:219][web:270]
     public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(key)
-                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -51,10 +49,6 @@ public class JwtUtil {
 
     public String extractEmail(String token) {
         return getAllClaimsFromToken(token).get("email", String.class);
-    }
-
-    public String extractRole(String token) {
-        return getAllClaimsFromToken(token).get("role", String.class);
     }
 
     public Long extractUserId(String token) {
@@ -69,11 +63,16 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    // Common validation used by filters/services
+    // Used when you want to compare with an email from DB
     public boolean isTokenValid(String token, String email) {
         String extractedEmail = extractEmail(token);
         return extractedEmail != null
                 && extractedEmail.equals(email)
                 && !isTokenExpired(token);
+    }
+
+    // Used by JwtAuthenticationFilter when it only passes the token
+    public boolean isTokenValid(String token) {
+        return !isTokenExpired(token);
     }
 }
