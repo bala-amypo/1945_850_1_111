@@ -34,15 +34,12 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
-
- public Claims getAllClaimsFromToken(String token) {
+    public Claims getAllClaimsFromToken(String token) {
     return Jwts.parser()
             .setSigningKey(key)
             .parseClaimsJws(token)
             .getBody();
 }
-
-
     public String extractUsername(String token) {
         return getAllClaimsFromToken(token).getSubject();
     }
