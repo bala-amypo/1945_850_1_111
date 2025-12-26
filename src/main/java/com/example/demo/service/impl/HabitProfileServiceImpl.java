@@ -27,7 +27,6 @@ public class HabitProfileServiceImpl implements HabitProfileService {
             throw new IllegalArgumentException("study hours must be positive");
         }
         
-        // Ensure student exists
         if (!studentRepo.findById(habit.getStudentId()).isPresent()) {
             throw new ResourceNotFoundException("Student not found");
         }

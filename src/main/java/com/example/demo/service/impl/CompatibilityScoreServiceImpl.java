@@ -31,7 +31,6 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
         HabitProfile habitB = habitRepo.findByStudentId(studentBId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit profile not found for student " + studentBId));
 
-        // Simple compatibility algorithm (0-100 score)
         double score = calculateCompatibilityScore(habitA, habitB);
         
         CompatibilityScoreRecord record = scoreRepo.findByStudentAIdAndStudentBId(studentAId, studentBId).orElse(new CompatibilityScoreRecord());
@@ -45,19 +44,14 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
     }
 
     private double calculateCompatibilityScore(HabitProfile a, HabitProfile b) {
-        double score = 50.0; // base score
-        
-        // Study hours similarity
+        double score = 50.0;
         if (a.getStudyHoursPerDay() != null && b.getStudyHoursPerDay() != null) {
             double studyDiff = Math.abs(a.getStudyHoursPerDay() - b.getStudyHoursPerDay());
             score += (1.0 - studyDiff / 10.0) * 20;
         }
-        
-        // Enum similarities (simplified)
         if (a.getSleepSchedule() == b.getSleepSchedule()) score += 10;
         if (a.getCleanlinessLevel() == b.getCleanlinessLevel()) score += 10;
         if (a.getNoiseTolerance() == b.getNoiseTolerance()) score += 10;
-        
         return Math.max(0, Math.min(100, score));
     }
 
@@ -75,8 +69,7 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
 
     @Override
     public CompatibilityScoreRecord getScoreById(Long id) {
-        return scoreRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Compatibility score not found"));
+        return scoreRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Compatibility score not found"));
     }
 
     @Override
