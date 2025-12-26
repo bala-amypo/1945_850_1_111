@@ -30,9 +30,4 @@ public class CompatibilityController {
     public ResponseEntity<List<CompatibilityScoreRecord>> getForStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(compatService.getScoresForStudent(studentId));
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CompatibilityScoreRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(compatService.getScoreById(id));
-    }
 }

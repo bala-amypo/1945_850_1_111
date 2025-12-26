@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Match Attempts", description = "Match attempt tracking")
+@Tag(name = "Match Attempts", description = "Match attempt management")
 @RestController
 @RequestMapping("/api/match-attempts")
 public class MatchAttemptController {
@@ -24,10 +24,8 @@ public class MatchAttemptController {
         return ResponseEntity.ok(attemptService.logMatchAttempt(attempt));
     }
 
-    @PutMapping("/{id}/status/{status}")
-    public ResponseEntity<MatchAttemptRecord> updateStatus(
-            @PathVariable Long id, 
-            @PathVariable String status) {
-        return ResponseEntity.ok(attemptService.updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status)));
+    @GetMapping
+    public ResponseEntity<List<MatchAttemptRecord>> getAll() {
+        return ResponseEntity.ok(attemptService.getAllMatchAttempts());
     }
 }

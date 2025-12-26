@@ -10,7 +10,7 @@ import java.util.List;
 
 @Tag(name = "Room Assignments", description = "Room assignment management")
 @RestController
-@RequestMapping("/api/rooms")
+@RequestMapping("/api/room-assignments")
 public class RoomAssignmentController {
 
     private final RoomAssignmentService assignmentService;
@@ -24,15 +24,8 @@ public class RoomAssignmentController {
         return ResponseEntity.ok(assignmentService.assignRoom(assignment));
     }
 
-    @PutMapping("/{id}/status/{status}")
-    public ResponseEntity<RoomAssignmentRecord> updateStatus(
-            @PathVariable Long id, 
-            @PathVariable String status) {
-        return ResponseEntity.ok(assignmentService.updateStatus(id, RoomAssignmentRecord.Status.valueOf(status)));
-    }
-
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<RoomAssignmentRecord>> getByStudent(@PathVariable Long studentId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByStudent(studentId));
+    @GetMapping
+    public ResponseEntity<List<RoomAssignmentRecord>> getAll() {
+        return ResponseEntity.ok(assignmentService.getAllAssignments());
     }
 }

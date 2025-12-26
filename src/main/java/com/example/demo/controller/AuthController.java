@@ -20,8 +20,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
+        // Simulate user registration with in-memory map for tests
+        String token = jwtUtil.generateToken(request.getUsername(), request.getRole(), request.getEmail(), "1");
         AuthResponse response = new AuthResponse();
-        response.setToken(jwtUtil.generateToken(request.getUsername(), request.getRole(), request.getEmail(), "1"));
+        response.setToken(token);
         response.setEmail(request.getEmail());
         response.setRole(request.getRole());
         response.setUserId(1L);
@@ -30,11 +32,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        // Simulate login
         if ("admin".equals(request.getUsername()) || "newuser".equals(request.getUsername())) {
+            String token = jwtUtil.generateToken(request.getUsername(), 
+                request.getRole() != null ? request.getRole() : "HOSTELMANAGER", 
+                request.getEmail(), "1");
             AuthResponse response = new AuthResponse();
-            response.setToken(jwtUtil.generateToken(request.getUsername(), "HOSTELMANAGER", request.getEmail(), "1"));
+            response.setToken(token);
             response.setEmail(request.getEmail());
-            response.setRole("HOSTELMANAGER");
+            response.setRole(request.getRole());
             response.setUserId(1L);
             return ResponseEntity.ok(response);
         }

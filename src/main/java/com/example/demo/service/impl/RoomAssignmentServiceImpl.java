@@ -1,3 +1,5 @@
+
+// RoomAssignmentServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -12,7 +14,6 @@ import java.util.List;
 
 @Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
-
     private final RoomAssignmentRecordRepository roomRepo;
     private final StudentProfileRepository studentRepo;
 
@@ -24,9 +25,9 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment) {
         StudentProfile studentA = studentRepo.findById(assignment.getStudentAId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student A not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Student A not found"));
         StudentProfile studentB = studentRepo.findById(assignment.getStudentBId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student B not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Student B not found"));
 
         if (!studentA.isActive() || !studentB.isActive()) {
             throw new IllegalArgumentException("both students must be active");
@@ -39,7 +40,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public RoomAssignmentRecord updateStatus(Long id, RoomAssignmentRecord.Status status) {
         RoomAssignmentRecord assignment = roomRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
         assignment.setStatus(status);
         return roomRepo.save(assignment);
     }
@@ -57,6 +58,6 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public RoomAssignmentRecord getAssignmentById(Long id) {
         return roomRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
     }
 }
