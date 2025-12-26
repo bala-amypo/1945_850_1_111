@@ -14,16 +14,19 @@ import java.util.Optional;
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
 
-    private final HabitProfileRepository habitRepo;
-    private final StudentProfileRepository studentRepo;
+    private HabitProfileRepository habitRepo;
+    private StudentProfileRepository studentRepo;
 
-    // tests call new HabitProfileServiceImpl(habitRepo)
-    public HabitProfileServiceImpl(HabitProfileRepository habitRepo) {
-        this.habitRepo = habitRepo;
-        this.studentRepo = null;
+    // No-arg constructor for Spring (fixes "No default constructor" error)
+    public HabitProfileServiceImpl() {
     }
 
-    // used by Spring
+    // Constructor used by tests (HabitProfileServiceImpl(habitRepo))
+    public HabitProfileServiceImpl(HabitProfileRepository habitRepo) {
+        this.habitRepo = habitRepo;
+    }
+
+    // Constructor used by Spring normal DI
     public HabitProfileServiceImpl(HabitProfileRepository habitRepo,
                                    StudentProfileRepository studentRepo) {
         this.habitRepo = habitRepo;
@@ -36,7 +39,8 @@ public class HabitProfileServiceImpl implements HabitProfileService {
             throw new IllegalArgumentException("study hours must be positive");
         }
 
-        if (studentRepo != null && studentRepo.findById(habit.getStudentId()).isEmpty()) {
+        if (studentRepo != null &&
+            studentRepo.findById(habit.getStudentId()).isEmpty()) {
             throw new ResourceNotFoundException("Student not found");
         }
 
