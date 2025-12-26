@@ -4,15 +4,17 @@ public class AuthRequest {
 
     private String username;
     private String email;
-    private String password;   // <‑‑ add this
+    private String password;
+    private String role;   // <- add this
 
     public AuthRequest() {
     }
 
-    public AuthRequest(String username, String email, String password) {
+    public AuthRequest(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -31,11 +33,19 @@ public class AuthRequest {
         this.email = email;
     }
 
-    public String getPassword() {          // <‑‑ getter used in AuthServiceImpl
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {  // <‑‑ setter
+    public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {          // <- for tests
+        return role;
+    }
+
+    public void setRole(String role) { // <- for tests
+        this.role = role;
     }
 }
