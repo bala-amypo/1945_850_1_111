@@ -1,14 +1,59 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.StudentProfile;
+import com.example.demo.repository.StudentProfileRepository;
+import com.example.demo.service.StudentProfileService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface StudentProfileService {
-    StudentProfile create(StudentProfile student);
-    StudentProfile getStudentById(Long id);
-    List<StudentProfile> getAllStudents();
-    StudentProfile updateStudentStatus(Long id, boolean active);
-    Optional<StudentProfile> findByStudentId(String studentId);
-    Optional<StudentProfile> findByEmail(String email);
+@Service
+public class StudentProfileServiceImpl implements StudentProfileService {
+
+    private final StudentProfileRepository studentRepo;
+
+    public StudentProfileServiceImpl(StudentProfileRepository studentRepo) {
+        this.studentRepo = studentRepo;
+    }
+
+    @Override
+    public StudentProfile create(StudentProfile student) {
+        if (studentRepo.findByStudentId(student.getStudentId()).isPresent()) {
+            throw new IllegalArgumentException("studentId exists");
+        }
+        if (student.getEmail() != null && studentRepo.findByEmail(student.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("email exists");
+        }
+        return studentRepo.save(student);
+    }
+
+    @Override
+    public StudentProfile getStudentById(Long id) {
+        return studentRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    }
+
+    @Override
+    public List<StudentProfile> getAllStudents() {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public StudentProfile updateStudentStatus(Long id, boolean active) {
+        StudentProfile student = getStudentById(id);
+        student.setActive(active);
+        return studentRepo.save(student);
+    }
+
+    @Override
+    public Optional<StudentProfile> findByStudentId(String studentId) {
+        return studentRepo.findByStudentId(studentId);
+    }
+
+    @Override
+    public Optional<StudentProfile> findByEmail(String email) {
+        return studentRepo.findByEmail(email);
+    }
 }
