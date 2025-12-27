@@ -19,8 +19,6 @@ public class MatchAttemptRecord {
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING_REVIEW;
 
-    // ---------- getters/setters ----------
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -33,18 +31,18 @@ public class MatchAttemptRecord {
     public Long getResultScoreId() { return resultScoreId; }
     public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
 
-    // ✅ TESTS EXPECT ENUM, NOT STRING
+    // 🔥 tests expect enum return
     public Status getStatus() {
         return status;
     }
 
-    // used by services (enum)
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    // used by tests/controllers (string)
+    // 🔥 tests pass string
     public void setStatus(String status) {
         this.status = Status.valueOf(status);
+    }
+
+    // 🔥 services pass enum
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
