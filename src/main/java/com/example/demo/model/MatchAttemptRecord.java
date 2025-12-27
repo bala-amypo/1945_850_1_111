@@ -1,3 +1,7 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "matchattemptrecord")
 public class MatchAttemptRecord {
@@ -22,9 +26,6 @@ public class MatchAttemptRecord {
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING;
-
-
-    // ===== getters & setters =====
 
     public Long getId() {
         return id;
