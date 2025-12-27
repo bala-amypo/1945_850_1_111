@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class MatchAttemptRecord {
 
     public enum Status {
-        
         PENDING_REVIEW,   // ✅ REQUIRED BY TESTS
         MATCHED,
         REJECTED
@@ -59,8 +58,7 @@ public class MatchAttemptRecord {
         this.resultScoreId = resultScoreId;
     }
 
-    // 🔥 STRING (tests)
-    
+    // 🔥 STRING-based (TESTS expect this)
     public String getStatus() {
         return status.name();
     }
@@ -69,18 +67,13 @@ public class MatchAttemptRecord {
         this.status = Status.valueOf(status);
     }
 
-    // 🔥 ENUM (services)
+    // 🔥 ENUM-based (SERVICES use this)
     public void setStatus(Status status) {
         this.status = status;
     }
+
     // 🔥 REQUIRED BY TESTS
-public void setStatus(String status) {
-    this.status = Status.valueOf(status);
-}
-
-// 🔥 REQUIRED BY TESTS
-public Status getStatusEnum() {
-    return status;
-}
-
+    public Status getStatusEnum() {
+        return status;
+    }
 }
