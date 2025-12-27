@@ -1,0 +1,12 @@
+package com.example.demo.service;
+
+import com.example.demo.model.CompatibilityScoreRecord;
+import java.util.List;
+import java.util.Optional;
+
+public interface CompatibilityScoreService {
+    CompatibilityScoreRecord computeScore(Long studentAId, Long studentBId);
+    Optional<CompatibilityScoreRecord> getScoreById(Long id);
+    List<CompatibilityScoreRecord> getScoresForStudent(Long studentId);
+    List<CompatibilityScoreRecord> getAllScores();
+}

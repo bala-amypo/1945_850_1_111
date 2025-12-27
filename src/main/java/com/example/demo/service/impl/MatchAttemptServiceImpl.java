@@ -1,0 +1,52 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.model.MatchAttemptRecord;
+import com.example.demo.repository.MatchAttemptRecordRepository;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
+import com.example.demo.service.MatchAttemptService;
+import com.example.demo.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class MatchAttemptServiceImpl implements MatchAttemptService {
+
+    private MatchAttemptRecordRepository matchRepo;
+    private CompatibilityScoreRecordRepository scoreRepo;
+
+    @Autowired
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
+                                 CompatibilityScoreRecordRepository scoreRepo) {
+        this.matchRepo = matchRepo;
+        this.scoreRepo = scoreRepo;
+    }
+
+    @Override
+    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
+        if (attempt.getResultScoreId() != null) {
+            attempt.setStatus(MatchAttemptRecord.Status.MATCHED.name());
+        } else {
+            attempt.setStatus(MatchAttemptRecord.Status.PENDINGREVIEW.name());
+        }
+        return matchRepo.save(attempt);
+    }
+
+    @Override
+    public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
+        MatchAttemptRecord attempt = matchRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Match attempt not found"));
+        attempt.setStatus(status);
+        return matchRepo.save(attempt);
+    }
+
+    @Override
+    public List<MatchAttemptRecord> getAttemptsByStudent(Long studentId) {
+        return matchRepo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
+    }
+
+    @Override
+    public List<MatchAttemptRecord> getAllMatchAttempts() {
+        return matchRepo.findAll();
+    }
+}
