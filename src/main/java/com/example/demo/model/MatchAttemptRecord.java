@@ -1,10 +1,14 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
 @Entity
-@Table(name = "matchattemptrecord")
+@Table(name = "match_attempt_record")
 public class MatchAttemptRecord {
 
     public enum Status {
         PENDING_REVIEW,
-        MATCHED,
+        ACCEPTED,
         REJECTED
     }
 
@@ -14,19 +18,18 @@ public class MatchAttemptRecord {
 
     private Long initiatorStudentId;
     private Long candidateStudentId;
-    private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING_REVIEW;
 
     // ===== REQUIRED BY TESTS =====
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getInitiatorStudentId() {
@@ -45,15 +48,7 @@ public class MatchAttemptRecord {
         this.candidateStudentId = candidateStudentId;
     }
 
-    public Long getResultScoreId() {
-        return resultScoreId;
-    }
-
-    public void setResultScoreId(Long resultScoreId) {
-        this.resultScoreId = resultScoreId;
-    }
-
-    // 🔥 String-based (tests)
+    // 🔥 String-based (tests expect this)
     public String getStatus() {
         return status.name();
     }
