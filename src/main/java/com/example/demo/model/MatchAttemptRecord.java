@@ -59,14 +59,14 @@ public class MatchAttemptRecord {
         this.resultScoreId = resultScoreId;
     }
 
-    // 🔥 STRING (tests)
-    public String getStatus() {
-        return status.name();
-    }
+    // // 🔥 STRING (tests)
+    // public String getStatus() {
+    //     return status.name();
+    // }
 
-    public void setStatus(String status) {
-        this.status = Status.valueOf(status);
-    }
+    // public void setStatus(String status) {
+    //     this.status = Status.valueOf(status);
+    // }
 
     // 🔥 ENUM (services)
     public void setStatus(Status status) {
