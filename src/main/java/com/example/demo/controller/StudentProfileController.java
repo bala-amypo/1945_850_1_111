@@ -1,45 +1,48 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RoomAssignmentRecord;
-import com.example.demo.service.RoomAssignmentService;
+import com.example.demo.model.StudentProfile;
+import com.example.demo.service.StudentProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/room-assignments")
-@Tag(name = "Room Assignment", description = "Room assignment management")
-public class RoomAssignmentController {
+@RequestMapping("/api/students")
+@Tag(name = "Student Profile", description = "Student profile management")
+public class StudentProfileController {
     
-    private final RoomAssignmentService assignmentService;
+    private final StudentProfileService studentService;
     
-    public RoomAssignmentController(RoomAssignmentService assignmentService) {
-        this.assignmentService = assignmentService;
+    public StudentProfileController(StudentProfileService studentService) {
+        this.studentService = studentService;
     }
     
     @PostMapping
-    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord assignment) {
-        return ResponseEntity.ok(assignmentService.assignRoom(assignment));
-    }
-    
-    @PutMapping("/{id}/status")
-    public ResponseEntity<RoomAssignmentRecord> updateStatus(@PathVariable Long id, @RequestParam String status) {
-        return ResponseEntity.ok(assignmentService.updateStatus(id, status));
-    }
-    
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<RoomAssignmentRecord>> getByStudent(@PathVariable Long studentId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByStudent(studentId));
+    public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile student) {
+        return ResponseEntity.ok(studentService.createStudent(student));
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<RoomAssignmentRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(assignmentService.getAssignmentById(id));
+    public ResponseEntity<StudentProfile> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getStudentById(id));
     }
     
     @GetMapping
-    public ResponseEntity<List<RoomAssignmentRecord>> getAll() {
-        return ResponseEntity.ok(assignmentService.getAllAssignments());
+    public ResponseEntity<List<StudentProfile>> getAll() {
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<StudentProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(studentService.updateStudentStatus(id, active));
+    }
+    
+    @GetMapping("/lookup/{studentId}")
+    public ResponseEntity<StudentProfile> lookup(@PathVariable String studentId) {
+        Optional<StudentProfile> student = studentService.findByStudentId(studentId);
+        return student.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
     }
 }
