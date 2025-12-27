@@ -1,7 +1,3 @@
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-
 @Entity
 @Table(name = "matchattemptrecord")
 public class MatchAttemptRecord {
@@ -57,7 +53,7 @@ public class MatchAttemptRecord {
         this.resultScoreId = resultScoreId;
     }
 
-    
+    // 🔥 String-based (tests)
     public String getStatus() {
         return status.name();
     }
@@ -66,7 +62,7 @@ public class MatchAttemptRecord {
         this.status = Status.valueOf(status);
     }
 
-    
+    // 🔥 Enum-based (services)
     public void setStatus(Status status) {
         this.status = status;
     }
