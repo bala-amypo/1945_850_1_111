@@ -54,7 +54,7 @@ public class HabitProfile {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // ✅ Explicit getters required by tests
+    // ===== GETTERS (tests expect these) =====
 
     public Long getStudentId() {
         return studentId;
@@ -78,5 +78,27 @@ public class HabitProfile {
 
     public SocialPreference getSocialPreference() {
         return socialPreference;
+    }
+
+    // ===== 🔥 REQUIRED SETTERS (tests call these directly) =====
+
+    public void setStudyHoursPerDay(Integer studyHoursPerDay) {
+        this.studyHoursPerDay = studyHoursPerDay;
+    }
+
+    public void setSleepSchedule(SleepSchedule sleepSchedule) {
+        this.sleepSchedule = sleepSchedule;
+    }
+
+    public void setCleanlinessLevel(CleanlinessLevel cleanlinessLevel) {
+        this.cleanlinessLevel = cleanlinessLevel;
+    }
+
+    public void setNoiseTolerance(NoiseTolerance noiseTolerance) {
+        this.noiseTolerance = noiseTolerance;
+    }
+
+    public void setSocialPreference(SocialPreference socialPreference) {
+        this.socialPreference = socialPreference;
     }
 }
