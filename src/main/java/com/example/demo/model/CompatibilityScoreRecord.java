@@ -2,12 +2,14 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "compatibilityscorerecord")
+@Table(name = "compatibility_score")
 @Data
 public class CompatibilityScoreRecord {
+
     public enum CompatibilityLevel {
         POOR, FAIR, GOOD, EXCELLENT
     }
@@ -16,10 +18,7 @@ public class CompatibilityScoreRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long studentAId;
-
-    @Column(nullable = false)
     private Long studentBId;
 
     private Double score;

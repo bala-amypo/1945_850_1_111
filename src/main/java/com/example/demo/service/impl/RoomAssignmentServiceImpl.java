@@ -29,9 +29,11 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
         StudentProfile studentB = studentRepo.findById(assignment.getStudentBId())
                 .orElseThrow(() -> new ResourceNotFoundException("Student B not found"));
 
-        if (!studentA.isActive() || !studentB.isActive()) {
-            throw new IllegalArgumentException("both students must be active");
-        }
+        if (!Boolean.TRUE.equals(studentA.getActive()) ||
+    !Boolean.TRUE.equals(studentB.getActive())) {
+    throw new IllegalArgumentException("both students must be active");
+}
+
 
         // TEST EXPECTS STRING STATUS
         assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE.name());
