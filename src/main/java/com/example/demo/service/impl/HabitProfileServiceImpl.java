@@ -6,24 +6,36 @@ import com.example.demo.service.HabitProfileService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
 
-    private final HabitProfileRepository repository;
+    private final HabitProfileRepository repo;
 
-    public HabitProfileServiceImpl(HabitProfileRepository repository) {
-        this.repository = repository;
+    public HabitProfileServiceImpl(HabitProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public HabitProfile createOrUpdateHabit(HabitProfile habitProfile) {
-        habitProfile.setUpdatedAt(LocalDateTime.now());
-        return repository.save(habitProfile);
+    public HabitProfile createOrUpdateHabit(HabitProfile h) {
+        h.setUpdatedAt(LocalDateTime.now());
+        return repo.save(h);
     }
 
     @Override
-    public HabitProfile getHabitById(long id) {
-        return repository.findById(id).orElse(null);
+    public Optional<HabitProfile> getHabitById(long id) {
+        return repo.findById(id);
+    }
+
+    @Override
+    public Optional<HabitProfile> getHabitByStudent(long studentId) {
+        return repo.findByStudentId(studentId);
+    }
+
+    @Override
+    public List<HabitProfile> getAllHabitProfiles() {
+        return repo.findAll();
     }
 }

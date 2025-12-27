@@ -7,11 +7,10 @@ import java.time.LocalDateTime;
 @Table(name = "habit_profiles")
 public class HabitProfile {
 
-    // ===== ENUMS REQUIRED BY TESTS =====
     public enum CleanlinessLevel { LOW, MEDIUM, HIGH }
     public enum NoiseTolerance { LOW, MEDIUM, HIGH }
-    public enum SleepSchedule { EARLY_BIRD, NIGHT_OWL }
-    public enum SocialPreference { INTROVERT, AMBIVERT, EXTROVERT }
+    public enum SleepSchedule { EARLY, REGULAR, LATE }
+    public enum SocialPreference { INTROVERT, BALANCED, EXTROVERT }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +33,7 @@ public class HabitProfile {
 
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    // ===== GETTERS & SETTERS =====
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public Long getStudentId() { return studentId; }
     public void setStudentId(Long studentId) { this.studentId = studentId; }
 
@@ -47,27 +43,17 @@ public class HabitProfile {
     }
 
     public CleanlinessLevel getCleanlinessLevel() { return cleanlinessLevel; }
-    public void setCleanlinessLevel(CleanlinessLevel cleanlinessLevel) {
-        this.cleanlinessLevel = cleanlinessLevel;
-    }
+    public void setCleanlinessLevel(CleanlinessLevel c) { this.cleanlinessLevel = c; }
 
     public NoiseTolerance getNoiseTolerance() { return noiseTolerance; }
-    public void setNoiseTolerance(NoiseTolerance noiseTolerance) {
-        this.noiseTolerance = noiseTolerance;
-    }
+    public void setNoiseTolerance(NoiseTolerance n) { this.noiseTolerance = n; }
 
     public SleepSchedule getSleepSchedule() { return sleepSchedule; }
-    public void setSleepSchedule(SleepSchedule sleepSchedule) {
-        this.sleepSchedule = sleepSchedule;
-    }
+    public void setSleepSchedule(SleepSchedule s) { this.sleepSchedule = s; }
 
     public SocialPreference getSocialPreference() { return socialPreference; }
-    public void setSocialPreference(SocialPreference socialPreference) {
-        this.socialPreference = socialPreference;
-    }
+    public void setSocialPreference(SocialPreference s) { this.socialPreference = s; }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
