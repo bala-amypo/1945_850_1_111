@@ -47,10 +47,12 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
         return roomRepo.save(assignment);
     }
 
-    @Override
-    public Optional<RoomAssignmentRecord> getAssignmentById(Long id) {
-        return roomRepo.findById(id);
-    }
+ @Override
+public RoomAssignmentRecord getAssignmentById(Long id) {
+    return roomRepo.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
+}
+
 
     @Override
     public List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId) {

@@ -93,9 +93,11 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
     }
 
     @Override
-    public Optional<CompatibilityScoreRecord> getScoreById(Long id) {
-        return scoreRepo.findById(id);
-    }
+public CompatibilityScoreRecord getScoreById(Long id) {
+    return scoreRepo.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Compatibility score not found"));
+}
+
 
     @Override
     public List<CompatibilityScoreRecord> getScoresForStudent(Long studentId) {

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface CompatibilityScoreService {
     CompatibilityScoreRecord computeScore(Long studentAId, Long studentBId);
-    Optional<CompatibilityScoreRecord> getScoreById(Long id);
+   CompatibilityScoreRecord getScoreById(Long id); 
     List<CompatibilityScoreRecord> getScoresForStudent(Long studentId);
     List<CompatibilityScoreRecord> getAllScores();
 }

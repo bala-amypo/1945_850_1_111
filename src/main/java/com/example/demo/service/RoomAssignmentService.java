@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface RoomAssignmentService {
     RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment);
     RoomAssignmentRecord updateStatus(Long id, String status);
-    Optional<RoomAssignmentRecord> getAssignmentById(Long id);
+   RoomAssignmentRecord getAssignmentById(Long id); 
     List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
     List<RoomAssignmentRecord> getAllAssignments();
 }

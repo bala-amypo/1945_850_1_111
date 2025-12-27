@@ -39,9 +39,10 @@ public class MatchAttemptRecord {
         updatedAt = LocalDateTime.now();
     }
 
-    public enum Status {
-        PENDINGREVIEW, MATCHED, REJECTED
+   public enum Status {
+      PENDING_REVIEW, MATCHED, REJECTED  
     }
+
 
     public Long getId() {
         return id;
