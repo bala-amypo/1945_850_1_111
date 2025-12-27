@@ -72,4 +72,14 @@ public class MatchAttemptRecord {
     public void setStatus(Status status) {
         this.status = status;
     }
+    // 🔥 REQUIRED BY TESTS
+public void setStatus(String status) {
+    this.status = Status.valueOf(status);
+}
+
+// 🔥 REQUIRED BY TESTS
+public Status getStatusEnum() {
+    return status;
+}
+
 }
