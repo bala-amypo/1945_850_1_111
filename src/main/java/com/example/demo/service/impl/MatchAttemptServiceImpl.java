@@ -34,14 +34,7 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
         return updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status));
     }
 
-    // ✅ ENUM version (used internally)
-    @Override
-    public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
-        MatchAttemptRecord a = matchRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Match attempt not found"));
-        a.setStatus(status);
-        return matchRepo.save(a);
-    }
+    
 
     @Override
     public List<MatchAttemptRecord> getAllMatchAttempts() {
