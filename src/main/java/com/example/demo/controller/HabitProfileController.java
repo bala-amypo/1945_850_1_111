@@ -6,35 +6,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/habits")
 public class HabitProfileController {
 
-    private final HabitProfileService service;
+    private final HabitProfileService habitService;
 
-    public HabitProfileController(HabitProfileService service) {
-        this.service = service;
+    public HabitProfileController(HabitProfileService habitService) {
+        this.habitService = habitService;
     }
 
+    // CREATE or UPDATE
     @PostMapping
-    public ResponseEntity<HabitProfile> createOrUpdateHabit(@RequestBody HabitProfile h) {
-        return ResponseEntity.ok(service.createOrUpdateHabit(h));
+    public ResponseEntity<HabitProfile> createOrUpdateHabit(
+            @RequestBody HabitProfile habitProfile) {
+
+        return ResponseEntity.ok(
+                habitService.createOrUpdateHabit(habitProfile)
+        );
     }
 
+    // GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<HabitProfile>> getHabitById(@PathVariable long id) {
-        return ResponseEntity.ok(service.getHabitById(id));
+    public ResponseEntity<HabitProfile> getHabitById(@PathVariable long id) {
+
+        return ResponseEntity.ok(
+                habitService.getHabitById(id)
+        );
     }
 
+    // GET BY STUDENT
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<Optional<HabitProfile>> getByStudent(@PathVariable long studentId) {
-        return ResponseEntity.ok(service.getHabitByStudent(studentId));
-    }
+    public ResponseEntity<List<HabitProfile>> getByStudent(
+            @PathVariable long studentId) {
 
-    @GetMapping
-    public ResponseEntity<List<HabitProfile>> getAll() {
-        return ResponseEntity.ok(service.getAllHabitProfiles());
+        return ResponseEntity.ok(
+                habitService.getHabitByStudent(studentId)
+        );
     }
 }
