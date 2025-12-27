@@ -1,3 +1,4 @@
+// CompatibilityScoreRecordRepository.java
 package com.example.demo.repository;
 
 import com.example.demo.model.CompatibilityScoreRecord;
@@ -9,7 +10,7 @@ import java.util.Optional;
 public interface CompatibilityScoreRecordRepository
         extends JpaRepository<CompatibilityScoreRecord, Long> {
 
-    Optional<CompatibilityScoreRecord> findByStudentAIdAndStudentBId(Long a, Long b);
+    Optional<CompatibilityScoreRecord> findByStudentAIdAndStudentBId(Long studentAId, Long studentBId);
 
-    List<CompatibilityScoreRecord> findByStudentAIdOrStudentBId(Long a, Long b);
+    List<CompatibilityScoreRecord> findByStudentAIdOrStudentBId(Long studentAId, Long studentBId);
 }
