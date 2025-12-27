@@ -11,7 +11,7 @@ public interface HabitProfileRepository extends JpaRepository<HabitProfile, Long
 
     Optional<HabitProfile> findByStudentId(Long studentId);
 
-    // 🔥 REQUIRED BY TESTS
-    @Query("SELECT DISTINCT h.studentId AS studentId FROM HabitProfile h")
+    // ✅ THIS IS WHAT FIXES getStudentId() ERROR
+    @Query("select distinct h.studentId as studentId from HabitProfile h")
     List<StudentIdView> findDistinctStudents();
 }
