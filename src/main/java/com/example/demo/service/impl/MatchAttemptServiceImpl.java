@@ -29,7 +29,10 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     }
 
     
-   
+    @Override
+    public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
+        return updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status));
+    }
 
     
     @Override
