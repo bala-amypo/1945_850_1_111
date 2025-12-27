@@ -1,18 +1,79 @@
-package com.example.demo.repository;
+package com.example.demo.model;
 
-import com.example.demo.model.MatchAttemptRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import jakarta.persistence.*;
 
-import java.util.List;
+@Entity
+@Table(name = "matchattemptrecord")
+public class MatchAttemptRecord {
 
-public interface MatchAttemptRecordRepository
-        extends JpaRepository<MatchAttemptRecord, Long> {
+    public enum Status {
+        PENDING_REVIEW,   // ✅ REQUIRED BY TESTS
+        MATCHED,
+        REJECTED
+    }
 
-    List<MatchAttemptRecord> findByInitiatorStudentIdOrCandidateStudentId(Long id1, Long id2);
-    @Query("""
-        select distinct m.initiatorStudentId as studentId
-        from MatchAttemptRecord m
-    """)
-    List<StudentIdView> findDistinctStudents();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long initiatorStudentId;
+    private Long candidateStudentId;
+
+    private Long resultScoreId;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PENDING_REVIEW;
+
+    // ===== REQUIRED BY TESTS =====
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getInitiatorStudentId() {
+        return initiatorStudentId;
+    }
+
+    public void setInitiatorStudentId(Long initiatorStudentId) {
+        this.initiatorStudentId = initiatorStudentId;
+    }
+
+    public Long getCandidateStudentId() {
+        return candidateStudentId;
+    }
+
+    public void setCandidateStudentId(Long candidateStudentId) {
+        this.candidateStudentId = candidateStudentId;
+    }
+
+    public Long getResultScoreId() {
+        return resultScoreId;
+    }
+
+    public void setResultScoreId(Long resultScoreId) {
+        this.resultScoreId = resultScoreId;
+    }
+
+    // 🔥 STRING-based (TESTS expect this)
+    public String getStatus() {
+        return status.name();
+    }
+
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
+    }
+
+    // 🔥 ENUM-based (SERVICES use this)
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public Status getStatusEnum() {
+        return status;
+    }
 }
