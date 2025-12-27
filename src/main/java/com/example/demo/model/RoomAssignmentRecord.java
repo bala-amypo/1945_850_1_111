@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/model/RoomAssignmentRecord.java
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -8,41 +7,22 @@ import jakarta.persistence.*;
 public class RoomAssignmentRecord {
 
     public enum Status {
-        ACTIVE, COMPLETED, CANCELLED
+        ACTIVE,
+        INACTIVE
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String roomNumber;
-
-    @Column(nullable = false)
     private Long studentAId;
-
-    @Column(nullable = false)
     private Long studentBId;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
-    // ===== getters & setters =====
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
     }
 
     public Long getStudentAId() {
@@ -61,12 +41,17 @@ public class RoomAssignmentRecord {
         this.studentBId = studentBId;
     }
 
-    public Status getStatus() {
-        return status;
+    // ===== TEST-COMPATIBLE =====
+
+    public String getStatus() {
+        return status.name();
     }
 
     public void setStatus(String status) {
         this.status = Status.valueOf(status);
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
