@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface HabitProfileService {
     HabitProfile createOrUpdateHabit(HabitProfile habit);
+    HabitProfile getHabitByStudent(Long studentId);
     Optional<HabitProfile> getHabitById(Long id);
-    Optional<HabitProfile> getHabitByStudent(Long studentId);
     List<HabitProfile> getAllHabitProfiles();
 }
