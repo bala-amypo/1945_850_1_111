@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class MatchAttemptRecord {
 
     public enum Status {
-        PENDING,
+        PENDING_REVIEW,
         MATCHED,
         REJECTED
     }
@@ -25,7 +25,8 @@ public class MatchAttemptRecord {
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private Status status = Status.PENDING_REVIEW;
+    // ===== getters & setters =====
 
     public Long getId() {
         return id;
