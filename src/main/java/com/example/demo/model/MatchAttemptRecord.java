@@ -3,12 +3,12 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "match_attempt_record")
+@Table(name = "matchattemptrecord")
 public class MatchAttemptRecord {
 
     public enum Status {
-        PENDING_REVIEW,
-        ACCEPTED,
+        PENDING,
+        MATCHED,
         REJECTED
     }
 
@@ -19,10 +19,13 @@ public class MatchAttemptRecord {
     private Long initiatorStudentId;
     private Long candidateStudentId;
 
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING_REVIEW;
+    // 🔥 REQUIRED BY SERVICE + TESTS
+    private Long resultScoreId;
 
-    // ===== REQUIRED BY TESTS =====
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PENDING;
+
+    // ===== REQUIRED GETTERS / SETTERS =====
 
     public Long getId() {
         return id;
@@ -48,7 +51,15 @@ public class MatchAttemptRecord {
         this.candidateStudentId = candidateStudentId;
     }
 
-    // 🔥 String-based (tests expect this)
+    public Long getResultScoreId() {
+        return resultScoreId;
+    }
+
+    public void setResultScoreId(Long resultScoreId) {
+        this.resultScoreId = resultScoreId;
+    }
+
+    // 🔥 STRING-BASED (tests)
     public String getStatus() {
         return status.name();
     }
@@ -57,7 +68,7 @@ public class MatchAttemptRecord {
         this.status = Status.valueOf(status);
     }
 
-    // 🔥 Enum-based (services)
+    // 🔥 ENUM-BASED (services)
     public void setStatus(Status status) {
         this.status = status;
     }
