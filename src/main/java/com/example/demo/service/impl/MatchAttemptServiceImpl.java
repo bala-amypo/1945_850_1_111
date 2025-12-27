@@ -27,11 +27,6 @@ public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
     }
     return matchRepo.save(attempt);
 }
-
-
-
-
-
     @Override
     public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
         MatchAttemptRecord a = matchRepo.findById(id)
