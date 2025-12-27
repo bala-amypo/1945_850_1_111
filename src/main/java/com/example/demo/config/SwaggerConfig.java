@@ -33,4 +33,9 @@ public class SwaggerConfig {
                         new SecurityRequirement().addList("bearerAuth")
                 );
     }
+
+    
+    public OpenAPI api() {
+        return customOpenAPI();
+    }
 }

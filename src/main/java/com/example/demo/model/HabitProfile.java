@@ -2,12 +2,14 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "habitprofile")
 @Data
 public class HabitProfile {
+
     public enum SleepSchedule {
         EARLY, REGULAR, LATE
     }
@@ -51,8 +53,30 @@ public class HabitProfile {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    // ✅ Explicit getters required by tests
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public Integer getStudyHoursPerDay() {
+        return studyHoursPerDay;
+    }
+
+    public SleepSchedule getSleepSchedule() {
+        return sleepSchedule;
+    }
+
+    public CleanlinessLevel getCleanlinessLevel() {
+        return cleanlinessLevel;
+    }
+
+    public NoiseTolerance getNoiseTolerance() {
+        return noiseTolerance;
+    }
+
+    public SocialPreference getSocialPreference() {
+        return socialPreference;
+    }
 }
-
-
-
-
