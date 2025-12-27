@@ -1,15 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.CompatibilityScoreRecord;
-import com.example.demo.repository.CompatibilityScoreRecordRepository;
-import com.example.demo.repository.HabitProfileRepository;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.CompatibilityScoreService;
-import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
 public class CompatibilityScoreServiceImpl implements CompatibilityScoreService {
 
     private final CompatibilityScoreRecordRepository scoreRepo;
@@ -22,37 +20,38 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
         this.habitRepo = habitRepo;
     }
 
-    @Override
-    public CompatibilityScoreRecord computeScore(long a, long b) {
+    public CompatibilityScoreRecord computeScore(Long a, Long b) {
 
-        CompatibilityScoreRecord record = new CompatibilityScoreRecord();
-        record.setStudentAId(a);
-        record.setStudentBId(b);
-        record.setScore(75.0);
-        record.setCompatibilityLevel(
-                CompatibilityScoreRecord.CompatibilityLevel.GOOD
-        );
+        if (a.equals(b))
+            throw new IllegalArgumentException("same student");
 
-        return scoreRepo.save(record);
+        HabitProfile ha = habitRepo.findByStudentId(a)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+
+        HabitProfile hb = habitRepo.findByStudentId(b)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+
+        CompatibilityScoreRecord rec =
+                scoreRepo.findByStudentAIdAndStudentBId(a, b)
+                        .orElse(new CompatibilityScoreRecord());
+
+        rec.setStudentAId(a);
+        rec.setStudentBId(b);
+        rec.setScore(80.0);
+        rec.setComputedAt(LocalDateTime.now());
+
+        return scoreRepo.save(rec);
     }
 
-    @Override
-    public CompatibilityScoreRecord getScoreById(long id) {
-        return scoreRepo.findById(id).orElse(null);
+    public CompatibilityScoreRecord getScoreById(Long id) {
+        return scoreRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
-    @Override
-    public List<CompatibilityScoreRecord> getScoresForStudent(long studentId) {
-        return scoreRepo.findAll()
-                .stream()
-                .filter(r ->
-                        r.getStudentAId() == studentId ||
-                        r.getStudentBId() == studentId
-                )
-                .collect(Collectors.toList());
+    public List<CompatibilityScoreRecord> getScoresForStudent(Long id) {
+        return scoreRepo.findByStudentAIdOrStudentBId(id, id);
     }
 
-    @Override
     public List<CompatibilityScoreRecord> getAllScores() {
         return scoreRepo.findAll();
     }
