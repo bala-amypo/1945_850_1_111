@@ -1,49 +1,45 @@
-package com.example.demo.dto;
+package com.example.demo.controller;
 
-public class AuthRequest {
-    private String username;
-    private String password;
-    private String email;
-    private String role;
+import com.example.demo.model.RoomAssignmentRecord;
+import com.example.demo.service.RoomAssignmentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-    public AuthRequest() {}
-
-    public AuthRequest(String username, String password, String email, String role) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
+@RestController
+@RequestMapping("/api/room-assignments")
+@Tag(name = "Room Assignment", description = "Room assignment management")
+public class RoomAssignmentController {
+    
+    private final RoomAssignmentService assignmentService;
+    
+    public RoomAssignmentController(RoomAssignmentService assignmentService) {
+        this.assignmentService = assignmentService;
     }
-
-    public String getUsername() {
-        return username;
+    
+    @PostMapping
+    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord assignment) {
+        return ResponseEntity.ok(assignmentService.assignRoom(assignment));
     }
-
-    public void setUsername(String username) {
-        this.username = username;
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<RoomAssignmentRecord> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        return ResponseEntity.ok(assignmentService.updateStatus(id, status));
     }
-
-    public String getPassword() {
-        return password;
+    
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<RoomAssignmentRecord>> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsByStudent(studentId));
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomAssignmentRecord> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(assignmentService.getAssignmentById(id));
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    
+    @GetMapping
+    public ResponseEntity<List<RoomAssignmentRecord>> getAll() {
+        return ResponseEntity.ok(assignmentService.getAllAssignments());
     }
 }
