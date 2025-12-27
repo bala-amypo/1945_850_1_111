@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +19,22 @@ public class HabitProfileController {
     }
 
     @PostMapping
-    public HabitProfile createOrUpdateHabit(@RequestBody HabitProfile h) {
-        return service.createOrUpdateHabit(h);
+    public ResponseEntity<HabitProfile> createOrUpdateHabit(@RequestBody HabitProfile h) {
+        return ResponseEntity.ok(service.createOrUpdateHabit(h));
     }
 
     @GetMapping("/{id}")
-    public Optional<HabitProfile> getHabitById(@PathVariable long id) {
-        return service.getHabitById(id);
+    public ResponseEntity<Optional<HabitProfile>> getHabitById(@PathVariable long id) {
+        return ResponseEntity.ok(service.getHabitById(id));
     }
 
     @GetMapping("/student/{studentId}")
-    public Optional<HabitProfile> getByStudent(@PathVariable long studentId) {
-        return service.getHabitByStudent(studentId);
+    public ResponseEntity<Optional<HabitProfile>> getByStudent(@PathVariable long studentId) {
+        return ResponseEntity.ok(service.getHabitByStudent(studentId));
     }
 
     @GetMapping
-    public List<HabitProfile> getAll() {
-        return service.getAllHabitProfiles();
+    public ResponseEntity<List<HabitProfile>> getAll() {
+        return ResponseEntity.ok(service.getAllHabitProfiles());
     }
 }
