@@ -28,13 +28,20 @@ public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
     return matchRepo.save(attempt);
 }
 
-    @Override
+@Override
 public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
     MatchAttemptRecord a = matchRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Match attempt not found"));
-    a.setStatus(status);   // ✅ ENUM SAFE
+    a.setStatus(status);
     return matchRepo.save(a);
 }
+
+
+@Override
+public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
+    return updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status));
+}
+
 
 
     @Override
