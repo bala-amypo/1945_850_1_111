@@ -10,6 +10,8 @@ public class HabitProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long studentId;
+    private int studyHoursPerDay;
     private String habitName;
     private String frequency;
     private LocalDateTime updatedAt;
@@ -18,8 +20,20 @@ public class HabitProfile {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getStudyHoursPerDay() {
+        return studyHoursPerDay;
+    }
+
+    public void setStudyHoursPerDay(int studyHoursPerDay) {
+        this.studyHoursPerDay = studyHoursPerDay;
     }
 
     public String getHabitName() {

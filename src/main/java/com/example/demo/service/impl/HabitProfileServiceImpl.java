@@ -7,43 +7,54 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
 
-    private final HabitProfileRepository repo;
+    private final HabitProfileRepository habitProfileRepository;
 
-    public HabitProfileServiceImpl(HabitProfileRepository repo) {
-        this.repo = repo;
+    public HabitProfileServiceImpl(HabitProfileRepository habitProfileRepository) {
+        this.habitProfileRepository = habitProfileRepository;
     }
 
     @Override
-    public HabitProfile createOrUpdateHabit(HabitProfile h) {
-        if (h.getStudyHoursPerDay() < 0)
-            throw new IllegalArgumentException("study hours invalid");
-
-        Optional<HabitProfile> existing = repo.findByStudentId(h.getStudentId());
-        if (existing.isPresent()) {
-            h.setId(existing.get().getId());
-        }
+    public HabitProfile saveHabitProfile(HabitProfile h) {
         h.setUpdatedAt(LocalDateTime.now());
-        return repo.save(h);
+        return habitProfileRepository.save(h);
     }
 
     @Override
-    public Optional<HabitProfile> getHabitById(Long id) {
-        return repo.findById(id);
+    public HabitProfile updateHabitProfile(Long id, HabitProfile h) {
+        HabitProfile existing = habitProfileRepository.findById(id).orElse(null);
+
+        if (existing != null) {
+            existing.setStudentId(h.getStudentId());
+            existing.setStudyHoursPerDay(h.getStudyHoursPerDay());
+            existing.setHabitName(h.getHabitName());
+            existing.setFrequency(h.getFrequency());
+            existing.setUpdatedAt(LocalDateTime.now());
+            return habitProfileRepository.save(existing);
+        }
+        return null;
     }
 
     @Override
-    public HabitProfile getHabitByStudent(Long studentId) {
-        return repo.findByStudentId(studentId)
-                .orElseThrow(() -> new RuntimeException("not found"));
+    public HabitProfile getHabitProfileById(Long id) {
+        return habitProfileRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<HabitProfile> getAllHabitProfiles() {
-        return repo.findAll();
+        return habitProfileRepository.findAll();
+    }
+
+    @Override
+    public List<HabitProfile> getHabitByStudent(Long studentId) {
+        return habitProfileRepository.findByStudentId(studentId);
+    }
+
+    @Override
+    public void deleteHabitProfile(Long id) {
+        habitProfileRepository.deleteById(id);
     }
 }
