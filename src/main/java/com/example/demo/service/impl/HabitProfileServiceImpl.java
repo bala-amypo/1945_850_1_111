@@ -28,10 +28,10 @@ public class HabitProfileServiceImpl implements HabitProfileService {
         return repository.findById(id).orElse(null);
     }
 
-    @Override
+   @Override
     public List<HabitProfile> getHabitByStudent(long studentId) {
-        return repository.findByStudentId(studentId);
-    }
+        return repository.findByStudentId(studentId); 
+}
 
     @Override
     public List<HabitProfile> getAllHabitProfiles() {
