@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
-import com.example.demo.repository.MatchAttemptRecordRepository;
 import com.example.demo.repository.CompatibilityScoreRecordRepository;
+import com.example.demo.repository.MatchAttemptRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
 
@@ -11,45 +11,41 @@ import java.util.List;
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
-    private final MatchAttemptRecordRepository matchRepo;
+    private final MatchAttemptRecordRepository repo;
+    private final CompatibilityScoreRecordRepository scoreRepo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo,
                                    CompatibilityScoreRecordRepository scoreRepo) {
-        this.matchRepo = matchRepo;
+        this.repo = repo;
+        this.scoreRepo = scoreRepo;
     }
 
     @Override
-    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
-        if (attempt.getResultScoreId() != null) {
-            attempt.setStatus(MatchAttemptRecord.Status.MATCHED);
+    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord a) {
+        if (a.getResultScoreId() != null &&
+                scoreRepo.findById(a.getResultScoreId()).isPresent()) {
+            a.setStatus(MatchAttemptRecord.Status.MATCHED);
         } else {
-            attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
+            a.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
         }
-        return matchRepo.save(attempt);
+        return repo.save(a);
     }
 
-    
     @Override
     public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
-        return updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status));
-    }
-
-    
-    @Override
-    public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
-        MatchAttemptRecord a = matchRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Match attempt not found"));
-        a.setStatus(status);
-        return matchRepo.save(a);
+        MatchAttemptRecord a = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("not found"));
+        a.setStatus(MatchAttemptRecord.Status.valueOf(status));
+        return repo.save(a);
     }
 
     @Override
     public List<MatchAttemptRecord> getAllMatchAttempts() {
-        return matchRepo.findAll();
+        return repo.findAll();
     }
 
     @Override
-    public List<MatchAttemptRecord> getAttemptsByStudent(Long studentId) {
-        return matchRepo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
+    public List<MatchAttemptRecord> getAttemptsByStudent(Long id) {
+        return repo.findByInitiatorStudentIdOrCandidateStudentId(id, id);
     }
 }

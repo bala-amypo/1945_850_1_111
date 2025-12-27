@@ -1,74 +1,49 @@
-// src/main/java/com/example/demo/service/impl/HabitProfileServiceImpl.java
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.HabitProfile;
 import com.example.demo.repository.HabitProfileRepository;
-import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.HabitProfileService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
 
-    private HabitProfileRepository habitRepo;
-    private StudentProfileRepository studentRepo;
+    private final HabitProfileRepository repo;
 
-    // No-arg constructor for Spring (fixes "No default constructor" error)
-    public HabitProfileServiceImpl() {
-    }
-
-    // Constructor used by tests (HabitProfileServiceImpl(habitRepo))
-    public HabitProfileServiceImpl(HabitProfileRepository habitRepo) {
-        this.habitRepo = habitRepo;
-    }
-
-    // Constructor used by Spring normal DI
-    public HabitProfileServiceImpl(HabitProfileRepository habitRepo,
-                                   StudentProfileRepository studentRepo) {
-        this.habitRepo = habitRepo;
-        this.studentRepo = studentRepo;
+    public HabitProfileServiceImpl(HabitProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public HabitProfile createOrUpdateHabit(HabitProfile habit) {
-        if (habit.getStudyHoursPerDay() != null && habit.getStudyHoursPerDay() <= 0) {
-            throw new IllegalArgumentException("study hours must be positive");
-        }
+    public HabitProfile createOrUpdateHabit(HabitProfile h) {
+        if (h.getStudyHoursPerDay() < 0)
+            throw new IllegalArgumentException("study hours invalid");
 
-        if (studentRepo != null &&
-            studentRepo.findById(habit.getStudentId()).isEmpty()) {
-            throw new ResourceNotFoundException("Student not found");
-        }
-
-        Optional<HabitProfile> existing = habitRepo.findByStudentId(habit.getStudentId());
+        Optional<HabitProfile> existing = repo.findByStudentId(h.getStudentId());
         if (existing.isPresent()) {
-            HabitProfile h = existing.get();
-            h.setStudyHoursPerDay(habit.getStudyHoursPerDay());
-            h.setSleepSchedule(habit.getSleepSchedule());
-            h.setCleanlinessLevel(habit.getCleanlinessLevel());
-            h.setNoiseTolerance(habit.getNoiseTolerance());
-            h.setSocialPreference(habit.getSocialPreference());
-            return habitRepo.save(h);
+            h.setId(existing.get().getId());
         }
-        return habitRepo.save(habit);
-    }
-
-    @Override
-    public Optional<HabitProfile> getHabitByStudent(Long studentId) {
-        return habitRepo.findByStudentId(studentId);
+        h.setUpdatedAt(LocalDateTime.now());
+        return repo.save(h);
     }
 
     @Override
     public Optional<HabitProfile> getHabitById(Long id) {
-        return habitRepo.findById(id);
+        return repo.findById(id);
+    }
+
+    @Override
+    public HabitProfile getHabitByStudent(Long studentId) {
+        return repo.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @Override
     public List<HabitProfile> getAllHabitProfiles() {
-        return habitRepo.findAll();
+        return repo.findAll();
     }
 }

@@ -1,7 +1,5 @@
-// src/main/java/com/example/demo/service/impl/StudentProfileServiceImpl.java
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
@@ -13,49 +11,40 @@ import java.util.Optional;
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
 
-    private final StudentProfileRepository studentRepo;
+    private final StudentProfileRepository repo;
 
-    public StudentProfileServiceImpl(StudentProfileRepository studentRepo) {
-        this.studentRepo = studentRepo;
+    public StudentProfileServiceImpl(StudentProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public StudentProfile createStudent(StudentProfile student) {
-        if (studentRepo.findByStudentId(student.getStudentId()).isPresent()) {
+    public StudentProfile createStudent(StudentProfile s) {
+        if (repo.findByStudentId(s.getStudentId()).isPresent())
             throw new IllegalArgumentException("studentId exists");
-        }
-        if (studentRepo.findByEmail(student.getEmail()).isPresent()) {
+        if (repo.findByEmail(s.getEmail()).isPresent())
             throw new IllegalArgumentException("email exists");
-        }
-        return studentRepo.save(student);
+        return repo.save(s);
     }
 
     @Override
     public StudentProfile getStudentById(Long id) {
-        return studentRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @Override
     public List<StudentProfile> getAllStudents() {
-        return studentRepo.findAll();
+        return repo.findAll();
     }
 
     @Override
     public StudentProfile updateStudentStatus(Long id, boolean active) {
-        StudentProfile s = studentRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        StudentProfile s = getStudentById(id);
         s.setActive(active);
-        return studentRepo.save(s);
+        return repo.save(s);
     }
 
     @Override
     public Optional<StudentProfile> findByStudentId(String studentId) {
-        return studentRepo.findByStudentId(studentId);
-    }
-
-    @Override
-    public Optional<StudentProfile> findByEmail(String email) {
-        return studentRepo.findByEmail(email);
+        return repo.findByStudentId(studentId);
     }
 }

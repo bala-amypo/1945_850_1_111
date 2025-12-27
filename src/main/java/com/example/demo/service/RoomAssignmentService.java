@@ -1,21 +1,19 @@
+// RoomAssignmentService.java
 package com.example.demo.service;
 
 import com.example.demo.model.RoomAssignmentRecord;
+
 import java.util.List;
 
 public interface RoomAssignmentService {
 
-    RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment);
+    RoomAssignmentRecord assignRoom(RoomAssignmentRecord record);
 
-    // Enum version
-    RoomAssignmentRecord updateStatus(Long id, RoomAssignmentRecord.Status status);
-
-    // 🔥 String version REQUIRED by tests
     RoomAssignmentRecord updateStatus(Long id, String status);
 
-    List<RoomAssignmentRecord> getAllAssignments();
-
     List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
+
+    List<RoomAssignmentRecord> getAllAssignments();
 
     RoomAssignmentRecord getAssignmentById(Long id);
 }
