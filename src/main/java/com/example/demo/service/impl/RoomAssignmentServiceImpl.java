@@ -33,7 +33,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
             throw new IllegalArgumentException("both students must be active");
         }
 
-        assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE);
+        assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE.name());
         return roomRepo.save(assignment);
     }
 
@@ -41,7 +41,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     public RoomAssignmentRecord updateStatus(Long id, RoomAssignmentRecord.Status status) {
         RoomAssignmentRecord assignment = roomRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
-        assignment.setStatus(status);
+        assignment.setStatus(status.name());
         return roomRepo.save(assignment);
     }
 

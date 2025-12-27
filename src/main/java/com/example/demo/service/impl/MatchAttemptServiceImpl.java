@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/service/impl/MatchAttemptServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
@@ -14,19 +13,17 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository matchRepo;
 
-    // Constructor matching the tests: (matchRepo, scoreRepo)
     public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
                                    CompatibilityScoreRecordRepository scoreRepo) {
         this.matchRepo = matchRepo;
-        // scoreRepo is not needed by current logic but included to satisfy constructor signature
     }
 
     @Override
     public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
         if (attempt.getResultScoreId() != null) {
-            attempt.setStatus(MatchAttemptRecord.Status.MATCHED);
+            attempt.setStatus(MatchAttemptRecord.Status.MATCHED.name());
         } else {
-            attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
+            attempt.setStatus(MatchAttemptRecord.Status.PENDING.name());
         }
         return matchRepo.save(attempt);
     }
@@ -35,7 +32,7 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status status) {
         MatchAttemptRecord a = matchRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Match attempt not found"));
-        a.setStatus(status);
+        a.setStatus(status.name());
         return matchRepo.save(a);
     }
 
