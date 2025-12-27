@@ -27,7 +27,8 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
         if (attempt.getResultScoreId() != null) {
             attempt.setStatus(MatchAttemptRecord.Status.MATCHED.name());
         } else {
-            attempt.setStatus(MatchAttemptRecord.Status.PENDINGREVIEW.name());
+          attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW.name()); 
+
         }
         return matchRepo.save(attempt);
     }
