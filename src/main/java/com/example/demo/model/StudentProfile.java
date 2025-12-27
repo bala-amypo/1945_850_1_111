@@ -1,12 +1,16 @@
-// src/main/java/com/example/demo/model/StudentProfile.java
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "studentprofile")
+@Table(name = "student_profiles")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,26 +18,16 @@ public class StudentProfile {
     @Column(unique = true, nullable = false)
     private String studentId;
 
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String fullName;
 
-    private boolean active = true;
+    @Column(nullable = false)
+    private Boolean active = true;
 
-    // getters/setters
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-
-    public boolean isActive() { return active; }
-    public boolean getActive() { return active; } // used in tests
-    public void setActive(boolean active) { this.active = active; }
+    private String phoneNumber;
+    private String department;
+    private Integer year;
 }
