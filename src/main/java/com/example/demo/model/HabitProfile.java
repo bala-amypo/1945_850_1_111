@@ -1,50 +1,104 @@
-// CompatibilityScoreRecord.java
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "compatibility_scores")
-public class CompatibilityScoreRecord {
+@Table(name = "habitprofile")
+@Data
+public class HabitProfile {
 
-    public enum CompatibilityLevel { POOR, AVERAGE, GOOD, EXCELLENT }
+    public enum SleepSchedule {
+        EARLY, REGULAR, LATE
+    }
+
+    public enum CleanlinessLevel {
+        LOW, MEDIUM, HIGH
+    }
+
+    public enum NoiseTolerance {
+        LOW, MEDIUM, HIGH
+    }
+
+    public enum SocialPreference {
+        INTROVERT, BALANCED, EXTROVERT
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long studentAId;
-    private Long studentBId;
+    @Column(nullable = false)
+    private Long studentId;
 
-    private Double score;
+    private Integer studyHoursPerDay;
 
     @Enumerated(EnumType.STRING)
-    private CompatibilityLevel compatibilityLevel;
+    private SleepSchedule sleepSchedule;
 
-    private String detailsJson;
+    @Enumerated(EnumType.STRING)
+    private CleanlinessLevel cleanlinessLevel;
 
-    private LocalDateTime computedAt = LocalDateTime.now();
+    @Enumerated(EnumType.STRING)
+    private NoiseTolerance noiseTolerance;
 
-    // getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Enumerated(EnumType.STRING)
+    private SocialPreference socialPreference;
 
-    public Long getStudentAId() { return studentAId; }
-    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
+    private LocalDateTime updatedAt;
 
-    public Long getStudentBId() { return studentBId; }
-    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
-    public Double getScore() { return score; }
-    public void setScore(Double score) { this.score = score; }
+    // ===== GETTERS (tests expect these) =====
 
-    public CompatibilityLevel getCompatibilityLevel() { return compatibilityLevel; }
-    public void setCompatibilityLevel(CompatibilityLevel compatibilityLevel) { this.compatibilityLevel = compatibilityLevel; }
+    public Long getStudentId() {
+        return studentId;
+    }
 
-    public String getDetailsJson() { return detailsJson; }
-    public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
+    public Integer getStudyHoursPerDay() {
+        return studyHoursPerDay;
+    }
 
-    public LocalDateTime getComputedAt() { return computedAt; }
-    public void setComputedAt(LocalDateTime computedAt) { this.computedAt = computedAt; }
+    public SleepSchedule getSleepSchedule() {
+        return sleepSchedule;
+    }
+
+    public CleanlinessLevel getCleanlinessLevel() {
+        return cleanlinessLevel;
+    }
+
+    public NoiseTolerance getNoiseTolerance() {
+        return noiseTolerance;
+    }
+
+    public SocialPreference getSocialPreference() {
+        return socialPreference;
+    }
+
+    // ===== 🔥 REQUIRED SETTERS (tests call these directly) =====
+
+    public void setStudyHoursPerDay(Integer studyHoursPerDay) {
+        this.studyHoursPerDay = studyHoursPerDay;
+    }
+
+    public void setSleepSchedule(SleepSchedule sleepSchedule) {
+        this.sleepSchedule = sleepSchedule;
+    }
+
+    public void setCleanlinessLevel(CleanlinessLevel cleanlinessLevel) {
+        this.cleanlinessLevel = cleanlinessLevel;
+    }
+
+    public void setNoiseTolerance(NoiseTolerance noiseTolerance) {
+        this.noiseTolerance = noiseTolerance;
+    }
+
+    public void setSocialPreference(SocialPreference socialPreference) {
+        this.socialPreference = socialPreference;
+    }
 }
