@@ -33,16 +33,24 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
             throw new IllegalArgumentException("both students must be active");
         }
 
+        // TEST EXPECTS STRING STATUS
         assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE.name());
         return roomRepo.save(assignment);
     }
 
+    // ✅ ENUM VERSION (already expected by interface)
     @Override
     public RoomAssignmentRecord updateStatus(Long id, RoomAssignmentRecord.Status status) {
         RoomAssignmentRecord assignment = roomRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Room assignment not found"));
         assignment.setStatus(status.name());
         return roomRepo.save(assignment);
+    }
+
+    // ✅ STRING VERSION (REQUIRED BY TESTS)
+    @Override
+    public RoomAssignmentRecord updateStatus(Long id, String status) {
+        return updateStatus(id, RoomAssignmentRecord.Status.valueOf(status));
     }
 
     @Override
