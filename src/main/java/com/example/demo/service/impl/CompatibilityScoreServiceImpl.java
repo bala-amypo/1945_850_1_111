@@ -1,62 +1,33 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.CompatibilityScoreRecord;
 import com.example.demo.model.HabitProfile;
-import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.repository.HabitProfileRepository;
-import com.example.demo.service.CompatibilityScoreService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class CompatibilityScoreServiceImpl implements CompatibilityScoreService {
+public class CompatibilityScoreServiceImpl {
 
-    private final CompatibilityScoreRecordRepository scoreRepo;
-    private final HabitProfileRepository habitRepo;
+    private final HabitProfileRepository habitProfileRepository;
 
-    public CompatibilityScoreServiceImpl(CompatibilityScoreRecordRepository scoreRepo,
-                                         HabitProfileRepository habitRepo) {
-        this.scoreRepo = scoreRepo;
-        this.habitRepo = habitRepo;
+    public CompatibilityScoreServiceImpl(HabitProfileRepository habitProfileRepository) {
+        this.habitProfileRepository = habitProfileRepository;
     }
 
-    @Override
-    public CompatibilityScoreRecord computeScore(Long a, Long b) {
-        if (a.equals(b))
-            throw new IllegalArgumentException("same student");
+    public double calculateScore(Long studentId1, Long studentId2) {
 
-        HabitProfile h1 = habitRepo.findByStudentId(a)
-                .orElseThrow(() -> new RuntimeException("not found"));
-        HabitProfile h2 = habitRepo.findByStudentId(b)
-                .orElseThrow(() -> new RuntimeException("not found"));
+        List<HabitProfile> list1 = habitProfileRepository.findByStudentId(studentId1);
+        List<HabitProfile> list2 = habitProfileRepository.findByStudentId(studentId2);
 
-        CompatibilityScoreRecord rec =
-                scoreRepo.findByStudentAIdAndStudentBId(a, b)
-                        .orElse(new CompatibilityScoreRecord());
+        if (list1.isEmpty() || list2.isEmpty()) {
+            throw new RuntimeException("Habit profile not found");
+        }
 
-        rec.setStudentAId(a);
-        rec.setStudentBId(b);
-        rec.setScore(80.0);
-        rec.setComputedAt(LocalDateTime.now());
+        HabitProfile h1 = list1.get(0);
+        HabitProfile h2 = list2.get(0);
 
-        return scoreRepo.save(rec);
-    }
-
-    @Override
-    public CompatibilityScoreRecord getScoreById(Long id) {
-        return scoreRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
-    }
-
-    @Override
-    public List<CompatibilityScoreRecord> getScoresForStudent(Long id) {
-        return scoreRepo.findByStudentAIdOrStudentBId(id, id);
-    }
-
-    @Override
-    public List<CompatibilityScoreRecord> getAllScores() {
-        return scoreRepo.findAll();
+        // Simple compatibility logic
+        return Math.abs(h1.getStudyHoursPerDay() - h2.getStudyHoursPerDay());
     }
 }
