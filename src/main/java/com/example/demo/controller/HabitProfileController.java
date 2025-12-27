@@ -1,52 +1,43 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.HabitProfileDto;
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/habits")
+@Tag(name = "Habit Profile", description = "Habit profile management")
 public class HabitProfileController {
-
-    @Autowired
-    private HabitProfileService habitService;
-
-    public HabitProfileController() {}
-
+    
+    private final HabitProfileService habitService;
+    
     public HabitProfileController(HabitProfileService habitService) {
         this.habitService = habitService;
     }
-
+    
     @PostMapping
-    public ResponseEntity<HabitProfileDto> create(@RequestBody HabitProfile habit) {
-        HabitProfile created = habitService.createOrUpdateHabit(habit);
-        return ResponseEntity.ok(mapToDto(created));
+    public ResponseEntity<HabitProfile> createOrUpdate(@RequestBody HabitProfile habit) {
+        return ResponseEntity.ok(habitService.createOrUpdateHabit(habit));
     }
-
-    @GetMapping("/{studentId}")
-    public ResponseEntity<HabitProfileDto> getByStudent(@PathVariable Long studentId) {
-        Optional<HabitProfile> habit = habitService.getHabitByStudent(studentId);
-        if (habit.isPresent()) {
-            return ResponseEntity.ok(mapToDto(habit.get()));
-        }
-        return ResponseEntity.notFound().build();
+    
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(habitService.getHabitByStudent(studentId));
     }
-
-    private HabitProfileDto mapToDto(HabitProfile habit) {
-        HabitProfileDto dto = new HabitProfileDto();
-        dto.setId(habit.getId());
-        dto.setStudentId(habit.getStudentId());
-        dto.setSmoking(habit.getSmoking());
-        dto.setDrinking(habit.getDrinking());
-        dto.setSleepSchedule(habit.getSleepSchedule());
-        dto.setCleanlinessLevel(habit.getCleanlinessLevel());
-        dto.setNoiseTolerance(habit.getNoiseTolerance());
-        dto.setSocialPreference(habit.getSocialPreference());
-        dto.setStudyHoursPerDay(habit.getStudyHoursPerDay());
-        return dto;
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<HabitProfile> getById(@PathVariable Long id) {
+        Optional<HabitProfile> habit = habitService.getHabitById(id);
+        return habit.map(ResponseEntity::ok)
+                   .orElse(ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<HabitProfile>> getAll() {
+        return ResponseEntity.ok(habitService.getAllHabitProfiles());
     }
 }
