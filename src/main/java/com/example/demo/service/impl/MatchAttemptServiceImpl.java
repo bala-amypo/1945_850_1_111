@@ -37,10 +37,7 @@ public MatchAttemptRecord updateAttemptStatus(Long id, MatchAttemptRecord.Status
 }
 
 
-@Override
-public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
-    return updateAttemptStatus(id, MatchAttemptRecord.Status.valueOf(status));
-}
+
 
 
 
