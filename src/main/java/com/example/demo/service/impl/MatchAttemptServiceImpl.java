@@ -18,15 +18,16 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
         this.matchRepo = matchRepo;
     }
 
-   @Override
+@Override
 public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
     if (attempt.getResultScoreId() != null) {
         attempt.setStatus(MatchAttemptRecord.Status.MATCHED);
     } else {
-        attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
+        attempt.setStatus(MatchAttemptRecord.Status.PENDING);
     }
     return matchRepo.save(attempt);
 }
+
 
 
     @Override
