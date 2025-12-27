@@ -1,14 +1,11 @@
+// HabitProfileController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-@Tag(name = "Habit Profiles", description = "Habit profile management")
 @RestController
 @RequestMapping("/api/habits")
 public class HabitProfileController {
@@ -24,10 +21,8 @@ public class HabitProfileController {
         return ResponseEntity.ok(habitService.createOrUpdateHabit(habit));
     }
 
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<?> getByStudent(@PathVariable Long studentId) {
-        Optional<HabitProfile> habit = habitService.getHabitByStudent(studentId);
-        return habit.map(ResponseEntity::ok)
-                   .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{studentId}")
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(habitService.getHabitByStudent(studentId));
     }
 }

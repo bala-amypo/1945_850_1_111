@@ -1,14 +1,11 @@
+// StudentProfileController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.StudentProfile;
 import com.example.demo.service.StudentProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Tag(name = "Student Profiles", description = "Student profile management")
 @RestController
 @RequestMapping("/api/students")
 public class StudentProfileController {
@@ -21,7 +18,6 @@ public class StudentProfileController {
 
     @PostMapping
     public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile student) {
-        // must call createStudent (matches StudentProfileService and tests)
         return ResponseEntity.ok(studentService.createStudent(student));
     }
 
@@ -31,7 +27,7 @@ public class StudentProfileController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentProfile>> getAll() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 }

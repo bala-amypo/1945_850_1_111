@@ -1,14 +1,11 @@
+// MatchAttemptController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.service.MatchAttemptService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Tag(name = "Match Attempts", description = "Match attempt management")
 @RestController
 @RequestMapping("/api/match-attempts")
 public class MatchAttemptController {
@@ -25,7 +22,7 @@ public class MatchAttemptController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MatchAttemptRecord>> getAll() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(attemptService.getAllMatchAttempts());
     }
 }
