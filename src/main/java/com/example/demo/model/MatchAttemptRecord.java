@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class MatchAttemptRecord {
 
     public enum Status {
-        PENDING,
+        PENDING_REVIEW,
         MATCHED,
         REJECTED
     }
@@ -21,9 +21,13 @@ public class MatchAttemptRecord {
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private Status status = Status.PENDING_REVIEW;
 
-    // ===== Standard getters/setters =====
+    // ===== REQUIRED BY TESTS =====
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -53,19 +57,16 @@ public class MatchAttemptRecord {
         this.resultScoreId = resultScoreId;
     }
 
-    // ===== 🔥 TEST-COMPATIBLE METHODS =====
-
-    // Tests expect String
+    // 🔥 String-based (tests)
     public String getStatus() {
         return status.name();
     }
 
-    // Tests pass String
     public void setStatus(String status) {
         this.status = Status.valueOf(status);
     }
 
-    // Internal enum support (used by services)
+    // 🔥 Enum-based (services)
     public void setStatus(Status status) {
         this.status = status;
     }

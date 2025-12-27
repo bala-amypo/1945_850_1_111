@@ -8,7 +8,7 @@ public class RoomAssignmentRecord {
 
     public enum Status {
         ACTIVE,
-        INACTIVE
+        COMPLETED
     }
 
     @Id
@@ -17,9 +17,16 @@ public class RoomAssignmentRecord {
 
     private Long studentAId;
     private Long studentBId;
+    private String roomNumber;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
+
+    // ===== REQUIRED BY TESTS =====
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -41,8 +48,15 @@ public class RoomAssignmentRecord {
         this.studentBId = studentBId;
     }
 
-    // ===== TEST-COMPATIBLE =====
+    public String getRoomNumber() {
+        return roomNumber;
+    }
 
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    // 🔥 String-based (tests)
     public String getStatus() {
         return status.name();
     }
@@ -51,6 +65,7 @@ public class RoomAssignmentRecord {
         this.status = Status.valueOf(status);
     }
 
+    // 🔥 Enum-based (services)
     public void setStatus(Status status) {
         this.status = status;
     }
