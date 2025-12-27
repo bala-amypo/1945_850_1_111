@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class MatchAttemptRecord {
 
     public enum Status {
-        PENDING,
+        
         PENDING_REVIEW,   // ✅ REQUIRED BY TESTS
         MATCHED,
         REJECTED
