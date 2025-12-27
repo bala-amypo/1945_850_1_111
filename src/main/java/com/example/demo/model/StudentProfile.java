@@ -4,48 +4,51 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "room_assignment_records")
-public class RoomAssignmentRecord {
+@Table(name = "student_profiles")
+public class StudentProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "room_number")
-    private String roomNumber;
+    @Column(unique = true, nullable = false)
+    private String studentId;
     
-    @Column(name = "student_a_id")
-    private Long studentAId;
+    @Column(unique = true, nullable = false)
+    private String email;
     
-    @Column(name = "student_b_id")
-    private Long studentBId;
+    private String fullName;
+    private String department;
+    private Integer yearLevel;
+    private Boolean active = true;
     
-    @Column(name = "assigned_at")
-    private LocalDateTime assignedAt = LocalDateTime.now();
-    
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.ACTIVE;
-    
-    public enum Status { ACTIVE, COMPLETED, CANCELLED }
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
     
     // Constructors
-    public RoomAssignmentRecord() {}
+    public StudentProfile() {}
     
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
     
-    public Long getStudentAId() { return studentAId; }
-    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     
-    public Long getStudentBId() { return studentBId; }
-    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
     
-    public LocalDateTime getAssignedAt() { return assignedAt; }
-    public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
     
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public Integer getYearLevel() { return yearLevel; }
+    public void setYearLevel(Integer yearLevel) { this.yearLevel = yearLevel; }
+    
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
