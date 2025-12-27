@@ -13,4 +13,7 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
     Optional<StudentProfile> findByEmail(String email);
 
     List<StudentProfile> findByIdIn(List<Long> ids);
+
+    // 🔥 THIS IS THE KEY FIX 🔥
+    List<StudentIdView> findAllBy();
 }
