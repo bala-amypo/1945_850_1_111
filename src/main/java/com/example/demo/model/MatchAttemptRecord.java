@@ -1,14 +1,11 @@
-// src/main/java/com/example/demo/model/MatchAttemptRecord.java
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-
 @Entity
 @Table(name = "matchattemptrecord")
 public class MatchAttemptRecord {
 
     public enum Status {
-        PENDING_REVIEW, MATCHED, REJECTED
+        PENDING,
+        MATCHED,
+        REJECTED
     }
 
     @Id
@@ -24,7 +21,8 @@ public class MatchAttemptRecord {
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING_REVIEW;
+    private Status status = Status.PENDING;
+
 
     // ===== getters & setters =====
 
