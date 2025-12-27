@@ -8,6 +8,7 @@ public class MatchAttemptRecord {
 
     public enum Status {
         PENDING,
+        PENDING_REVIEW,   // ✅ REQUIRED BY TESTS
         MATCHED,
         REJECTED
     }
@@ -19,13 +20,12 @@ public class MatchAttemptRecord {
     private Long initiatorStudentId;
     private Long candidateStudentId;
 
-    // 🔥 REQUIRED BY SERVICE + TESTS
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private Status status = Status.PENDING_REVIEW;
 
-    // ===== REQUIRED GETTERS / SETTERS =====
+    // ===== REQUIRED BY TESTS =====
 
     public Long getId() {
         return id;
@@ -59,7 +59,7 @@ public class MatchAttemptRecord {
         this.resultScoreId = resultScoreId;
     }
 
-    // 🔥 STRING-BASED (tests)
+    // 🔥 STRING (tests)
     public String getStatus() {
         return status.name();
     }
@@ -68,7 +68,7 @@ public class MatchAttemptRecord {
         this.status = Status.valueOf(status);
     }
 
-    // 🔥 ENUM-BASED (services)
+    // 🔥 ENUM (services)
     public void setStatus(Status status) {
         this.status = status;
     }
