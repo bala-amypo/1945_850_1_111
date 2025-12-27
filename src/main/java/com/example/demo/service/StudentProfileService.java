@@ -1,20 +1,20 @@
-// StudentProfileService.java
-package com.example.demo.service;
+// // StudentProfileService.java
+// package com.example.demo.service;
 
-import com.example.demo.model.StudentProfile;
+// import com.example.demo.model.StudentProfile;
 
-import java.util.List;
-import java.util.Optional;
+// import java.util.List;
+// import java.util.Optional;
 
-public interface StudentProfileService {
+// public interface StudentProfileService {
 
-    StudentProfile createStudent(StudentProfile student);
+//     StudentProfile createStudent(StudentProfile student);
 
-    StudentProfile getStudentById(Long id);
+//     StudentProfile getStudentById(Long id);
 
-    StudentProfile updateStudentStatus(Long id, boolean active);
+//     StudentProfile updateStudentStatus(Long id, boolean active);
 
-    List<StudentProfile> getAllStudents();
+//     List<StudentProfile> getAllStudents();
 
-    Optional<StudentProfile> findByStudentId(String studentId);
-}
+//     Optional<StudentProfile> findByStudentId(String studentId);
+// }

@@ -1,15 +1,15 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import com.example.demo.model.HabitProfile;
-import java.util.List;
+// import com.example.demo.model.HabitProfile;
+// import java.util.List;
 
-public interface HabitProfileService {
+// public interface HabitProfileService {
 
-    HabitProfile createOrUpdateHabit(HabitProfile habit);
+//     HabitProfile createOrUpdateHabit(HabitProfile habit);
 
-    HabitProfile getHabitById(long id);
+//     HabitProfile getHabitById(long id);
 
-    List<HabitProfile> getHabitByStudent(long studentId);
+//     List<HabitProfile> getHabitByStudent(long studentId);
 
-    List<HabitProfile> getAllHabitProfiles();
-}
+//     List<HabitProfile> getAllHabitProfiles();
+// }

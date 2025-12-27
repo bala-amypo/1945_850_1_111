@@ -1,19 +1,19 @@
-// RoomAssignmentService.java
-package com.example.demo.service;
+// // RoomAssignmentService.java
+// package com.example.demo.service;
 
-import com.example.demo.model.RoomAssignmentRecord;
+// import com.example.demo.model.RoomAssignmentRecord;
 
-import java.util.List;
+// import java.util.List;
 
-public interface RoomAssignmentService {
+// public interface RoomAssignmentService {
 
-    RoomAssignmentRecord assignRoom(RoomAssignmentRecord record);
+//     RoomAssignmentRecord assignRoom(RoomAssignmentRecord record);
 
-    RoomAssignmentRecord updateStatus(Long id, String status);
+//     RoomAssignmentRecord updateStatus(Long id, String status);
 
-    List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
+//     List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
 
-    List<RoomAssignmentRecord> getAllAssignments();
+//     List<RoomAssignmentRecord> getAllAssignments();
 
-    RoomAssignmentRecord getAssignmentById(Long id);
-}
+//     RoomAssignmentRecord getAssignmentById(Long id);
+// }
