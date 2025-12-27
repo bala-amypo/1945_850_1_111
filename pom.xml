@@ -85,25 +85,16 @@
         </dependency>
 
         <!-- Test dependencies -->
-        
-        <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-    <exclusions>
-        <exclusion>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
 
+
+<!-- Add TestNG explicitly -->
 <dependency>
     <groupId>org.testng</groupId>
     <artifactId>testng</artifactId>
     <version>7.8.0</version>
     <scope>test</scope>
 </dependency>
+
 
 
         <!-- SQL -->
@@ -161,6 +152,16 @@
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <suiteXmlFiles>
+                    <suiteXmlFile>testng.xml</suiteXmlFile>
+                </suiteXmlFiles>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 </project>
