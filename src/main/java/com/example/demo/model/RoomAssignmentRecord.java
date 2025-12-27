@@ -65,7 +65,8 @@ public class RoomAssignmentRecord {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
     }
+
 }
