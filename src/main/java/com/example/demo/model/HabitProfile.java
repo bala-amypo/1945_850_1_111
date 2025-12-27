@@ -18,7 +18,9 @@ public class HabitProfile {
 
     private Long studentId;
     private Integer studyHoursPerDay;
-
+     public void setId(long id) {
+        this.id = id;
+    }
     @Enumerated(EnumType.STRING)
     private CleanlinessLevel cleanlinessLevel;
 
