@@ -9,7 +9,7 @@ public class RoomAssignmentRecord {
     public enum Status {
         ACTIVE,
         COMPLETED,
-        CANCELED
+        CANCELLED
     }
 
     @Id
